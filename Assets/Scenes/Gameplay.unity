@@ -118,6 +118,51 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &155347836
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 155347838}
+  - component: {fileID: 155347837}
+  m_Layer: 0
+  m_Name: ArenaSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &155347837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 155347836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acb4500680d7b8847a520cb8acdbba2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _arenaView: {fileID: 1340414392}
+--- !u!4 &155347838
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 155347836}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &232531103
 GameObject:
   m_ObjectHideFlags: 0
@@ -162,7 +207,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0a94ea0ae2268f44961b320aa54542c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _invaderSettings: {fileID: 11400000, guid: 92bd0f49492ba7e4c878a4d881d50266, type: 2}
 --- !u!1 &600690620
 GameObject:
   m_ObjectHideFlags: 0
@@ -463,8 +507,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _arenaSettings: {fileID: 11400000, guid: c143769fd7b31c343a1a017c47e31734, type: 2}
-  _arenaView: {fileID: 1340414392}
   _invaderSettings: {fileID: 11400000, guid: 92bd0f49492ba7e4c878a4d881d50266, type: 2}
+  _castleSettings: {fileID: 11400000, guid: be96ea432705134439f7ee7467867847, type: 2}
   _invaderViewPool: {fileID: 232531105}
 --- !u!114 &1340414392 stripped
 MonoBehaviour:
@@ -545,4 +589,5 @@ SceneRoots:
   - {fileID: 963194228}
   - {fileID: 705507995}
   - {fileID: 980675023}
+  - {fileID: 155347838}
   - {fileID: 2438576279909834391}

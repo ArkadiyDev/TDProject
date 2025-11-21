@@ -4,17 +4,12 @@ namespace Core.Arenas
 {
     public class Spawner : MonoBehaviour
     {
-        [SerializeField] private Waypoint _startWaypoint;
-
-        public Waypoint StartWaypoint => _startWaypoint;
+        public Vector3 Position => transform.position;
 
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawSphere(transform.position, 0.5f);
-
-            if (_startWaypoint != null)
-                Gizmos.DrawLine(transform.position, _startWaypoint.transform.position);
+            Gizmos.DrawSphere(transform.position, 0.4f);
 
             Gizmos.color = Color.white;
         }

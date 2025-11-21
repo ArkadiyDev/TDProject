@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Core.Invaders;
+using Core.Arenas;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace Core.Arenas
+namespace Core.Invaders
 {
     public class InvadersWave
     {
@@ -14,40 +14,44 @@ namespace Core.Arenas
 
         private readonly InvadersWaveData _waveData;
         private readonly InvaderFactory _invaderFactory;
-        private readonly List<Spawner> _spawners;
-
-        private List<Invader> _invaders = new();
+        private readonly List<Route> _routes;
+        private readonly List<Invader> _invaders = new();
+        
         private int _spawnedGroups;
 
-        public InvadersWave(InvadersWaveData waveData, InvaderFactory invaderFactory, List<Spawner> spawners)
+        public InvadersWave(InvadersWaveData waveData, InvaderFactory invaderFactory, List<Route> routes)
         {
             _waveData = waveData;
             _invaderFactory = invaderFactory;
-            _spawners = spawners;
+            _routes = routes;
         }
 
         public void StartWave()
         {
             foreach (var invadersGroup in _waveData.InvadersGroup)
-            {
-                if (invadersGroup.SpawnerIndex >= _spawners.Count)
-                {
-                    Debug.Log($"Spawner with index {invadersGroup.SpawnerIndex} not exist");
-                    continue;
-                } 
-                    
                 SpawnInvadersGroup(invadersGroup);
-            }
         }
 
         private async void SpawnInvadersGroup(InvadersGroup invadersGroup)
         {
+            var routeIndex = invadersGroup.RouteIndex;
+                
+            if (invadersGroup.RouteIndex >= _routes.Count || _routes.Count == 0)
+            {
+                Debug.Log($"Route with index {invadersGroup.RouteIndex} not exist");
+                return;
+            }
+
+            var route = _routes[routeIndex];
+            
+            if (!route.TryGetFirstWaypoint(out var startWaypoint))
+                return;
+            
             for (int i = 0; i < invadersGroup.Count; i++)
             {
-                var startWaypoint = _spawners[invadersGroup.SpawnerIndex].StartWaypoint;
-
                 var invader = _invaderFactory.Create();
-                invader.SetStartPosition(_spawners[invadersGroup.SpawnerIndex].gameObject.transform.position);
+                invader.SetRoute(route);
+                invader.SetStartPosition(route.Spawner.Position);
                 invader.SetStartWaypoint(startWaypoint);
                 invader.MoveToNextWaypoint();
                 

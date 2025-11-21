@@ -8,25 +8,30 @@ namespace Core.Invaders
     {
         public event Action<Invader> Removed;
         
-        private float _health;
-        private InvaderView _view;
+        private readonly InvaderView _view;
+        private readonly InvaderSettings _invaderSettings;
+        private readonly Action<InvaderView> _onRemove;
+        
+        private Route _route;
         private Waypoint _currentWaypoint;
-        private InvaderSettings _invaderSettings;
-        private Action<InvaderView> _onRemove;
+
+        public string Name => _invaderSettings.name;
+        public float Damage => _invaderSettings.Damage;
+        private float Speed => _invaderSettings.Speed;
+        
 
         public Invader(InvaderSettings invaderSettings, InvaderView view, Action<InvaderView> onRemove)
         {
             _invaderSettings = invaderSettings;
-            _health = invaderSettings.BaseHealth;
             _view = view;
             _onRemove = onRemove;
 
             _view.MoveComplete += OnMoveCompeted;
         }
 
-        private void OnMoveCompeted()
+        public void SetRoute(Route route)
         {
-            MoveToNextWaypoint();
+            _route = route;
         }
 
         public void SetStartPosition(Vector3 position)
@@ -41,23 +46,29 @@ namespace Core.Invaders
 
         public void MoveToNextWaypoint()
         {
-            if (_currentWaypoint.TryGetNextWaypoints(out var waypoint))
-                SetCurrentWaypoint(waypoint);
+            if (_route.TryGetNextWaypoints(_currentWaypoint, out var nextWaypoint))
+                SetCurrentWaypoint(nextWaypoint);
             else
-                HandleReachedCastle();
+                HandleReachedLastWaypoint();
         }
 
-        private void HandleReachedCastle()
+        private void OnMoveCompeted()
         {
-            Debug.Log($"{_view.name} dealt {_invaderSettings.Damage} damage to the Castle");
+            MoveToNextWaypoint();
+        }
 
+        private void HandleReachedLastWaypoint()
+        {
+            if (_route.CastleView)
+                _route.CastleView.Enter(this);
+            
             OnRemove();
         }
 
         private void SetCurrentWaypoint(Waypoint waypoint)
         {
             _currentWaypoint = waypoint;
-            _view.MoveTo(_currentWaypoint.transform.position, _invaderSettings.Speed);
+            _view.MoveTo(_currentWaypoint.transform.position, Speed);
         }
 
         private void OnRemove()

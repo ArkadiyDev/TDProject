@@ -1,4 +1,5 @@
 ﻿using Core.Arenas;
+using Core.Castles;
 using Core.Invaders;
 using UnityEngine;
 using Zenject;
@@ -9,14 +10,13 @@ namespace GameState
     {
         [SerializeField] private ArenaSettings _arenaSettings;
         [SerializeField] private InvaderSettings _invaderSettings;
-        [SerializeField] private ArenaView _arenaView;
+        [SerializeField] private CastleSettings _castleSettings;
         [SerializeField] private InvaderViewPool _invaderViewPool;
 
         public override void InstallBindings()
         {
             BindArenaSettings();
-            BindArenaView();
-            BindArena();
+            BindCastleSettings();
             BindInvaderFactory();
         }
 
@@ -28,20 +28,12 @@ namespace GameState
                 .AsSingle();
         }
 
-        private void BindArenaView()
+        private void BindCastleSettings()
         {
             Container
-                .Bind<ArenaView>()
-                .FromInstance(_arenaView)
+                .Bind<CastleSettings>()
+                .FromInstance(_castleSettings)
                 .AsSingle();
-        }
-
-        private void BindArena()
-        {
-            Container
-                .Bind<Arena>()
-                .AsSingle()
-                .NonLazy();
         }
 
         private void BindInvaderFactory()

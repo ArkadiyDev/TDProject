@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Core.Invaders;
 using UnityEngine;
 
 namespace Core.Arenas

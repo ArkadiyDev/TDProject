@@ -12,15 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 434fc7afcb479f142873030297786459, type: 3}
   m_Name: ArenaSettings
   m_EditorClassIdentifier: 
+  _wavesInterval: 10
   _waves:
   - _invadersGroup:
-    - _spawnerIndex: 0
+    - _routeIndex: 0
       _invaderSettings: {fileID: 11400000, guid: 92bd0f49492ba7e4c878a4d881d50266, type: 2}
-      _count: 20
-    - _spawnerIndex: 1
+      _count: 10
+    - _routeIndex: 1
       _invaderSettings: {fileID: 11400000, guid: 92bd0f49492ba7e4c878a4d881d50266, type: 2}
-      _count: 20
+      _count: 10
   - _invadersGroup:
-    - _spawnerIndex: 1
+    - _routeIndex: 0
       _invaderSettings: {fileID: 11400000, guid: 92bd0f49492ba7e4c878a4d881d50266, type: 2}
       _count: 20

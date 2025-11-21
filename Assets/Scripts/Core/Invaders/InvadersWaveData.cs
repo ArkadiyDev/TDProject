@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Core.Invaders;
 using UnityEngine;
 
-namespace Core.Arenas
+namespace Core.Invaders
 {
     [Serializable]
     public class InvadersWaveData
