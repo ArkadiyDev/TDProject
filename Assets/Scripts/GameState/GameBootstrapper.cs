@@ -1,7 +1,7 @@
-﻿using Assets.Scripts.GameState.Interfaces;
+﻿using GameState.Interfaces;
 using UnityEngine;
 
-namespace Assets.Scripts.GameState
+namespace GameState
 {
     public class GameBootstrapper : MonoBehaviour, ICoroutineRunner
     {

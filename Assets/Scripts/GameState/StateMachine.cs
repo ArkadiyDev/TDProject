@@ -1,8 +1,8 @@
-﻿using Assets.Scripts.GameState.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using GameState.Interfaces;
 
-namespace Assets.Scripts.GameState
+namespace GameState
 {
     public abstract class StateMachine
     {

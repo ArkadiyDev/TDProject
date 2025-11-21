@@ -1,6 +1,6 @@
-﻿using Assets.Scripts.GameState.Interfaces;
+﻿using GameState.Interfaces;
 
-namespace Assets.Scripts.GameState
+namespace GameState
 {
     public class BootstrapState : IState
     {

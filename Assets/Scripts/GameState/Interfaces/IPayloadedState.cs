@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.GameState.Interfaces
+﻿namespace GameState.Interfaces
 {
     public interface IPayloadedState<TPayload> : IExitableState
     {

@@ -1,10 +1,10 @@
-﻿using Assets.Scripts.GameState.Interfaces;
-using System;
+﻿using System;
 using System.Collections;
+using GameState.Interfaces;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Assets.Scripts.GameState
+namespace GameState
 {
     public class SceneLoader
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Assets.Scripts.GameState
+namespace GameState
 {
     public class LoadingScreen : MonoBehaviour
     {
