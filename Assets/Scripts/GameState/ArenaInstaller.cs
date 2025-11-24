@@ -1,4 +1,5 @@
-﻿using Core.Arenas;
+﻿using Common.GameSpeed;
+using Core.Arenas;
 using Core.Castles;
 using Core.Invaders;
 using UnityEngine;
@@ -18,6 +19,7 @@ namespace GameState
             BindArenaSettings();
             BindCastleSettings();
             BindInvaderFactory();
+            BindGameSpeedService();
         }
 
         private void BindArenaSettings()
@@ -42,6 +44,14 @@ namespace GameState
                 .Bind<InvaderFactory>()
                 .AsSingle()
                 .WithArguments(_invaderSettings, _invaderViewPool);
+        }
+
+        private void BindGameSpeedService()
+        {
+            Container
+                .Bind<IGameSpeedService>()
+                .To<GameSpeedService>()
+                .AsSingle();
         }
     }
 }

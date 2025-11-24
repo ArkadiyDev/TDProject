@@ -1,0 +1,94 @@
+{
+    "name": "InputSystem_CoreActions",
+    "maps": [
+        {
+            "name": "Hotkeys",
+            "id": "57248ef9-7756-4879-a5d6-96ecac365c76",
+            "actions": [
+                {
+                    "name": "GameSpeed_Normal",
+                    "type": "Button",
+                    "id": "0cb5b75d-ca91-4057-8396-24dbb925c599",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "GameSpeed_Double",
+                    "type": "Button",
+                    "id": "dae1dc30-8d4e-45af-9077-4b13e670072b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "GameSpeed_Triple",
+                    "type": "Button",
+                    "id": "47a00c93-be6f-4202-9d09-570454cab53a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "GamePause",
+                    "type": "Button",
+                    "id": "edf59c91-6c18-4494-a587-e7e4ee67e1d7",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "a31eb972-c354-4fdc-b95e-02466f381ab1",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "GameSpeed_Normal",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d942a91b-ce8a-4e83-93d9-bda8b9031c49",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "GameSpeed_Double",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ef066c39-6567-40c3-a84b-b18253b69737",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "GameSpeed_Triple",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a9fa20d5-c08f-4565-b929-ab8bac36d4d2",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "GamePause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
