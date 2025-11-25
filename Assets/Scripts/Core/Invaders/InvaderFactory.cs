@@ -1,6 +1,4 @@
-﻿using Cysharp.Threading.Tasks.Triggers;
-
-namespace Core.Invaders
+﻿namespace Core.Invaders
 {
     public class InvaderFactory
     {
@@ -12,7 +10,7 @@ namespace Core.Invaders
             _invaderSettings = invaderSettings;
             _invaderViewPool = invaderViewPool;
             
-            _invaderViewPool.Init(_invaderSettings);
+            _invaderViewPool.Init(_invaderSettings.AssetReference);
         }
 
         public Invader Create()

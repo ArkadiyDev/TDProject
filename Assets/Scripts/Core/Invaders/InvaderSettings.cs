@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Core.Invaders
 {
@@ -8,11 +9,11 @@ namespace Core.Invaders
         [SerializeField] private float _baseHealth;
         [SerializeField] private float _damage;
         [SerializeField] private float _speed;
-        [SerializeField] private InvaderView _viewPrefab;
+        [SerializeField] private AssetReference _assetReference;
 
         public float BaseHealth => _baseHealth;
         public float Damage => _damage;
         public float Speed => _speed;
-        public InvaderView ViewPrefab => _viewPrefab;
+        public AssetReference AssetReference => _assetReference;
     }
 }

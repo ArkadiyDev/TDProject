@@ -16,3 +16,9 @@ MonoBehaviour:
   _damage: 5
   _speed: 1.5
   _viewPrefab: {fileID: 5480275452792156566, guid: 1077739ef42ae944f8308c16f58c92fc, type: 3}
+  _assetReference:
+    m_AssetGUID: 1077739ef42ae944f8308c16f58c92fc
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0

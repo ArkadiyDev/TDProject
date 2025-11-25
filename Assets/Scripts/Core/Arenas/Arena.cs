@@ -1,4 +1,6 @@
-﻿using Core.Castles;
+﻿using System;
+using System.Threading.Tasks;
+using Core.Castles;
 using Core.Invaders;
 using UnityEngine;
 
@@ -6,19 +8,23 @@ namespace Core.Arenas
 {
     public class Arena
     {
+        private readonly ArenaSettings _arenaSettings;
         private readonly ArenaModel _arenaModel;
         private readonly Castle _castle; 
 
         public Arena(ArenaView arenaView, ArenaSettings arenaSettings, InvaderFactory invaderFactory, CastleSettings castleSettings)
         {
+            _arenaSettings = arenaSettings;
             _arenaModel = new ArenaModel(arenaSettings, invaderFactory, arenaView.Routes);
             _castle = new Castle(castleSettings, arenaView.CastleView);
 
             _castle.Destroyed += OnCastleDestroyed;
         }
 
-        public void RunWaves()
+        public async void RunWaves()
         {
+            await Task.Delay(TimeSpan.FromSeconds(_arenaSettings.FirstWaveDelay));
+            
             _arenaModel.StartNextWave();
         }
 

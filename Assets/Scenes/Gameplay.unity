@@ -207,6 +207,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0a94ea0ae2268f44961b320aa54542c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _invaderSettings: {fileID: 11400000, guid: 92bd0f49492ba7e4c878a4d881d50266, type: 2}
+  defaultCapacity: 16
+  maxSize: 150
 --- !u!1 &600690620
 GameObject:
   m_ObjectHideFlags: 0
