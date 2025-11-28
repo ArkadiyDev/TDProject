@@ -1,29 +1,35 @@
+using InputSystem;
 using UnityEngine;
 
 namespace Common.GameSpeed
 {
     public class GameSpeedService : IGameSpeedService
     {
+        private readonly IInputService _inputService;
+        
         public bool IsPaused => Mathf.Approximately(Time.timeScale, 0);
 
-        public void SetPaused(bool paused)
+        public GameSpeedService(IInputService inputService)
         {
-            SetSpeed(paused ? 0 : 1);
+            _inputService = inputService;
+
+            _inputService.OnGameSpeedClicked += OnGameSpeedClicked;
+            _inputService.OnGamePauseClicked += OnGamePauseClicked;
         }
 
-        public void SetNormalSpeed()
+        public void SetPaused()
         {
-            SetSpeed(1);
+            SetSpeed(0);
         }
-        
-        public void SetDoubleSpeed()
+
+        private void OnGameSpeedClicked(float speed)
         {
-            SetSpeed(2);
+            SetSpeed(speed);
         }
-        
-        public void SetTripleSpeed()
+
+        private void OnGamePauseClicked()
         {
-            SetSpeed(3);
+            SetSpeed(IsPaused ? 0 : 1);
         }
         
         private void SetSpeed(float speed)

@@ -1,7 +1,9 @@
 ﻿using Common.GameSpeed;
 using Core.Arenas;
+using Core.Building;
 using Core.Castles;
 using Core.Invaders;
+using InputSystem;
 using UnityEngine;
 using Zenject;
 
@@ -13,13 +15,18 @@ namespace GameState
         [SerializeField] private InvaderSettings _invaderSettings;
         [SerializeField] private CastleSettings _castleSettings;
         [SerializeField] private InvaderViewPool _invaderViewPool;
+        [SerializeField] private BuildingViewPool _buildingViewPool;
+        [SerializeField] private BuildingPlacementService _buildingPlacementService;
+        [SerializeField] private CoreInputService _inputService;
 
         public override void InstallBindings()
         {
             BindArenaSettings();
             BindCastleSettings();
             BindInvaderFactory();
+            BindInputService();
             BindGameSpeedService();
+            BindBuildingSystem();
         }
 
         private void BindArenaSettings()
@@ -46,12 +53,33 @@ namespace GameState
                 .WithArguments(_invaderSettings, _invaderViewPool);
         }
 
+        private void BindInputService()
+        {
+            Container
+                .Bind<IInputService>()
+                .FromInstance(_inputService)
+                .AsSingle();
+        }
+
         private void BindGameSpeedService()
         {
+            var inputService = Container.Resolve<IInputService>();
+
             Container
                 .Bind<IGameSpeedService>()
                 .To<GameSpeedService>()
-                .AsSingle();
+                .AsSingle()
+                .WithArguments(inputService)
+                .NonLazy();
+        }
+
+        private void BindBuildingSystem()
+        {
+            Container
+                .Bind<BuildingSystem>()
+                .AsSingle()
+                .WithArguments(_inputService, _buildingPlacementService, _buildingViewPool)
+                .NonLazy();
         }
     }
 }

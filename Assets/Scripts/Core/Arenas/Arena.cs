@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Core.Castles;
 using Core.Invaders;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Core.Arenas
@@ -23,7 +23,7 @@ namespace Core.Arenas
 
         public async void RunWaves()
         {
-            await Task.Delay(TimeSpan.FromSeconds(_arenaSettings.FirstWaveDelay));
+            await UniTask.Delay(TimeSpan.FromSeconds(_arenaSettings.FirstWaveDelay));
             
             _arenaModel.StartNextWave();
         }
