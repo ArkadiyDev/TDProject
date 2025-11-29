@@ -163,6 +163,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &196862010
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 196862011}
+  - component: {fileID: 196862012}
+  m_Layer: 0
+  m_Name: ProjectileViewPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &196862011
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 196862010}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 600690621}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &196862012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 196862010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e5834eed1904514b957e976c9483795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultCapacity: 16
+  maxSize: 150
 --- !u!1 &232531103
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,6 +373,7 @@ Transform:
   m_Children:
   - {fileID: 232531104}
   - {fileID: 1733812125}
+  - {fileID: 196862011}
   m_Father: {fileID: 980675023}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
@@ -426,6 +473,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &891705549
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 891705551}
+  - component: {fileID: 891705550}
+  m_Layer: 0
+  m_Name: TowerHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &891705550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 891705549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc204e6df9ba419694c870bbd444e667, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &891705551
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 891705549}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &909188977 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1732474009182076997, guid: 9df09610ed8af1b49a79c58b2fd78bac, type: 3}
@@ -631,8 +722,11 @@ MonoBehaviour:
   _arenaSettings: {fileID: 11400000, guid: c143769fd7b31c343a1a017c47e31734, type: 2}
   _invaderSettings: {fileID: 11400000, guid: 92bd0f49492ba7e4c878a4d881d50266, type: 2}
   _castleSettings: {fileID: 11400000, guid: be96ea432705134439f7ee7467867847, type: 2}
+  _towerSettings: {fileID: 11400000, guid: 432da0172e151454088d0edd869eaf9d, type: 2}
   _invaderViewPool: {fileID: 232531105}
-  _buildingViewPool: {fileID: 1733812126}
+  _towerViewPool: {fileID: 1733812126}
+  _projectileViewPool: {fileID: 196862012}
+  _towerHandler: {fileID: 891705550}
   _buildingPlacementService: {fileID: 395659461}
   _inputService: {fileID: 1408770195}
 --- !u!1 &1210205658 stripped
@@ -797,7 +891,7 @@ GameObject:
   - component: {fileID: 1733812125}
   - component: {fileID: 1733812126}
   m_Layer: 0
-  m_Name: BuildingsViewPool
+  m_Name: TowerViewPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -827,12 +921,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1733812124}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e109efad194f47e2be3349d94c02a624, type: 3}
+  m_Script: {fileID: 11500000, guid: ebf2fbf955ad4c9bbb41a4bae0bf085d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   defaultCapacity: 16
   maxSize: 150
-  _buildingSettings: {fileID: 11400000, guid: 93bb2e8375f692449b2b86d9426619b7, type: 2}
 --- !u!1 &1758430654 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2175052319637529137, guid: 9df09610ed8af1b49a79c58b2fd78bac, type: 3}
@@ -1092,3 +1185,4 @@ SceneRoots:
   - {fileID: 155347838}
   - {fileID: 2438576279909834391}
   - {fileID: 395659462}
+  - {fileID: 891705551}

@@ -1,3 +1,4 @@
+using Core.Towers;
 using InputSystem;
 using UnityEngine;
 
@@ -7,15 +8,13 @@ namespace Core.Building
     {
         private readonly IInputService _inputService;
         private readonly IBuildingPlacementService _placementService;
-        private readonly BuildingViewPool _buildingViewPool;
+        private readonly ITowerFactory _towerFactory;
 
-        private BuildingSettings _buildingSettings;
-
-        public BuildingSystem(IInputService inputService, IBuildingPlacementService placementService, BuildingViewPool buildingViewPool)
+        public BuildingSystem(IInputService inputService, IBuildingPlacementService placementService, ITowerFactory towerFactory)
         {
             _inputService = inputService;
             _placementService = placementService;
-            _buildingViewPool = buildingViewPool;
+            _towerFactory = towerFactory;
 
             _inputService.OnBuildingClicked += OnBuildingClicked;
             _inputService.OnLeftMouseButtonClicked += OnLeftMouseButtonClicked;
@@ -37,8 +36,7 @@ namespace Core.Building
 
         private void OnPlacementSuccessful(Vector3 position)
         {
-            var view = _buildingViewPool.Get();
-            view.transform.position = position;
+            _towerFactory.CreateTower(position);
         }
     }
 }

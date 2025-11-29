@@ -7,8 +7,12 @@ namespace Core.Invaders
     public class InvaderView : MonoBehaviour
     {
         public event Action MoveComplete;
+        
+        [SerializeField] private Transform _bodyTargetPoint;
 
         private Coroutine _moveCoroutine;
+
+        public Transform BodyTargetPoint => _bodyTargetPoint;
 
         private void OnDisable()
         {
