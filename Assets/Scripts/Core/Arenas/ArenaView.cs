@@ -6,21 +6,17 @@ namespace Core.Arenas
 {
     public class ArenaView : MonoBehaviour
     {
-        [SerializeField] private List<Spawner> _spawners;
         [SerializeField] private CastleView _castleView;
         [SerializeField] private List<Route> _routes;
 
-        public List<Spawner> Spawners => _spawners;
         public CastleView CastleView => _castleView;
         public List<Route> Routes => _routes;
-        
         
         private void OnDrawGizmos()
         {
             if(_routes.Count == 0)
                 return;
             
-
             foreach (var route in _routes)
             {
                 Gizmos.color = route.CastleView && route.Spawner ? Color.blue : Color.red;

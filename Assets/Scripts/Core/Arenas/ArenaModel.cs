@@ -1,19 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using Core.Invaders;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Core.Arenas
 {
     public class ArenaModel
     {
+        public event Action WaveCompleted;
+        
         private readonly ArenaSettings _arenaSettings;
         private readonly InvaderFactory _invaderFactory;
         private readonly List<Route> _routes;
         
         private int _currentWaveIndex;
         private bool _waveStopped;
+        
+        public bool IsWaveStopped => _waveStopped;
+        public int CurrentWaveIndex => _currentWaveIndex;
+        public bool IsLastWave => _currentWaveIndex >= _arenaSettings.Waves.Count;
 
         public ArenaModel(ArenaSettings arenaSettings, InvaderFactory invaderFactory, List<Route> routes)
         {
@@ -25,7 +30,7 @@ namespace Core.Arenas
         public void StartNextWave()
         {
             var invadersWave = new InvadersWave(GetCurrentWave(), _invaderFactory, _routes);
-            invadersWave.WaveCompleted += OnWaveCompleted;
+            invadersWave.WaveCompleted += OnInvadersWaveCompleted;
             
             invadersWave.StartWave();
             Debug.Log($"Wave {_currentWaveIndex} started");
@@ -36,29 +41,22 @@ namespace Core.Arenas
             _waveStopped = true;
             Debug.Log($"Wave {_currentWaveIndex} stopped");
         }
+        
+        public void AdvanceToNextWave()
+        {
+            if(!IsLastWave)
+                _currentWaveIndex++;
+        }
 
         private InvadersWaveData GetCurrentWave()
         {
             return _arenaSettings.Waves[_currentWaveIndex];
         }
-
-        private async void OnWaveCompleted(InvadersWave invadersWave)
+        
+        private void OnInvadersWaveCompleted(InvadersWave invadersWave)
         {
-            invadersWave.WaveCompleted -= OnWaveCompleted;
-            
-            if(_waveStopped)
-                return;
-                
-            Debug.Log($"Wave {_currentWaveIndex} completed");
-            
-            _currentWaveIndex++;
-
-            if (_currentWaveIndex >= _arenaSettings.Waves.Count)
-                return;
-            
-            await UniTask.Delay(TimeSpan.FromSeconds(_arenaSettings.WavesInterval));
-                
-            StartNextWave();
+            invadersWave.WaveCompleted -= OnInvadersWaveCompleted;
+            WaveCompleted?.Invoke();
         }
     }
 }

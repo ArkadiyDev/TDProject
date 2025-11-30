@@ -16,10 +16,25 @@ namespace Core.Arenas
         {
             _arena = new Arena(_arenaView, arenaSettings, invaderFactory, castleSettings);
             
+            _arena.OnGameOver += OnArenaGameOver;
+            _arena.OnGameWon += OnArenaGameWon;
+            
             RunWaves();
         }
 
-        private void RunWaves() =>
-            _arena.RunWaves();
+        private void RunWaves()
+        {
+            _arena.RunGameFlow().Forget();
+        }
+
+        private void OnArenaGameOver()
+        {
+            Debug.Log("ArenaSystem: Game Over!");
+        }
+    
+        private void OnArenaGameWon()
+        {
+            Debug.Log("ArenaSystem: Victory!");
+        }
     }
 }
