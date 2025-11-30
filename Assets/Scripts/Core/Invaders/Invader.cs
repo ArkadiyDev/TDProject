@@ -4,34 +4,36 @@ using UnityEngine;
 
 namespace Core.Invaders
 {
-    public class Invader
+    public class Invader : IDamageable
     {
         public event Action<Invader> Removed;
-        
+
         private readonly InvaderView _view;
-        private readonly InvaderSettings _invaderSettings;
+        private readonly InvaderLink _link;
+        private readonly InvaderModel _model;
         private readonly Action<InvaderView> _onRemove;
-        
-        private Route _route;
-        private Waypoint _currentWaypoint;
 
-        public string Name => _invaderSettings.name;
-        public float Damage => _invaderSettings.Damage;
-        private float Speed => _invaderSettings.Speed;
+        public string Name => _model.Name;
+        public float Damage => _model.Damage;
+        private float Speed => _model.Speed;
+        public bool IsAlive => _model.IsAlive;
+        public Transform BodyPoint => _view.BodyTargetPoint;
         
-
         public Invader(InvaderSettings invaderSettings, InvaderView view, Action<InvaderView> onRemove)
         {
-            _invaderSettings = invaderSettings;
+            _model = new InvaderModel(invaderSettings);
             _view = view;
             _onRemove = onRemove;
 
             _view.MoveComplete += OnMoveCompeted;
+            
+            _link = _view.gameObject.GetComponent<InvaderLink>();
+            _link.Initialize(this);
         }
 
         public void SetRoute(Route route)
         {
-            _route = route;
+            _model.SetRoute(route);
         }
 
         public void SetStartPosition(Vector3 position)
@@ -39,17 +41,42 @@ namespace Core.Invaders
             _view.transform.position = position;
         }
 
+        public void SetActiveView(bool active)
+        {
+            _view.gameObject.SetActive(active);
+        }
+
         public void SetStartWaypoint(Waypoint waypoint)
         {
-            SetCurrentWaypoint(waypoint);
+            _model.SetCurrentWaypoint(waypoint);
+            _view.MoveTo(waypoint.transform.position, Speed);
         }
 
         public void MoveToNextWaypoint()
         {
-            if (_route.TryGetNextWaypoints(_currentWaypoint, out var nextWaypoint))
-                SetCurrentWaypoint(nextWaypoint);
+            if (_model.TryGetNextWaypoint(out var nextWaypoint))
+            {
+                _model.SetCurrentWaypoint(nextWaypoint);
+                _view.MoveTo(nextWaypoint.transform.position, Speed);
+            }
             else
                 HandleReachedLastWaypoint();
+        }
+        
+        public void TakeDamage(float damageAmount)
+        {
+            if(!IsAlive)
+                return;
+            
+            Debug.Log($"{Name} take damage {damageAmount}");
+            _model.ReduceHealth(damageAmount);
+            
+            if(IsAlive)
+                return;
+            
+            Debug.Log($"{Name} died");
+            _view.StopMoving();
+            Remove();
         }
 
         private void OnMoveCompeted()
@@ -59,20 +86,15 @@ namespace Core.Invaders
 
         private void HandleReachedLastWaypoint()
         {
-            if (_route.CastleView)
-                _route.CastleView.Enter(this);
+            if (_model.Route.CastleView)
+                _model.Route.CastleView.Enter(this);
             
-            OnRemove();
+            Remove();
         }
 
-        private void SetCurrentWaypoint(Waypoint waypoint)
+        private void Remove()
         {
-            _currentWaypoint = waypoint;
-            _view.MoveTo(_currentWaypoint.transform.position, Speed);
-        }
-
-        private void OnRemove()
-        {
+            _link.Reset();
             _view.MoveComplete -= OnMoveCompeted;
             _onRemove?.Invoke(_view);
             

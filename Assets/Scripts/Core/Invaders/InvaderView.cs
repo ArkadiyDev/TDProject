@@ -16,8 +16,7 @@ namespace Core.Invaders
 
         private void OnDisable()
         {
-            if (_moveCoroutine != null)
-                StopCoroutine(_moveCoroutine);
+            StopMoving();
         }
 
         public void MoveTo(Vector3 position, float speed)
@@ -28,6 +27,12 @@ namespace Core.Invaders
                 StopCoroutine(_moveCoroutine);
 
             _moveCoroutine = StartCoroutine(MoveCoroutine(position, speed));
+        }
+
+        public void StopMoving()
+        {
+            if (_moveCoroutine != null)
+                StopCoroutine(_moveCoroutine);
         }
 
         private IEnumerator MoveCoroutine(Vector3 targetPosition, float speed)

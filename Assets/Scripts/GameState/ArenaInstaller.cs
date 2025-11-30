@@ -30,6 +30,7 @@ namespace GameState
             BindInvaderFactory();
             BindInputService();
             BindGameSpeedService();
+            BindProjectileFactory();
             BindTowerFactory();
             BindBuildingSystem();
         }
@@ -78,13 +79,24 @@ namespace GameState
                 .NonLazy();
         }
         
+        private void BindProjectileFactory()
+        {
+            Container
+                .Bind<IProjectileFactory>()
+                .To<ProjectileFactory>()
+                .AsSingle()
+                .WithArguments(_projectileViewPool, _towerSettings.Projectile);
+        }
+        
         private void BindTowerFactory()
         {
+            var projectileFactory =  Container.Resolve<IProjectileFactory>();
+            
             Container
                 .Bind<ITowerFactory>()
                 .To<TowerFactory>()
                 .AsSingle()
-                .WithArguments(_towerSettings, _towerViewPool, _towerHandler, _projectileViewPool);
+                .WithArguments(_towerSettings, _towerViewPool, _towerHandler, projectileFactory);
         }
 
         private void BindBuildingSystem()

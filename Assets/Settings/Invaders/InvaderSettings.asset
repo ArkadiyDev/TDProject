@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f66e7e9219ce0bd43a3588b075bf03c8, type: 3}
   m_Name: InvaderSettings
   m_EditorClassIdentifier: 
-  _baseHealth: 100
+  _baseHealth: 10
   _damage: 5
   _speed: 1.5
-  _viewPrefab: {fileID: 5480275452792156566, guid: 1077739ef42ae944f8308c16f58c92fc, type: 3}
   _assetReference:
     m_AssetGUID: 1077739ef42ae944f8308c16f58c92fc
     m_SubObjectName: 

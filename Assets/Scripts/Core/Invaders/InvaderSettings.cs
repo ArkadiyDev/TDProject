@@ -11,6 +11,7 @@ namespace Core.Invaders
         [SerializeField] private float _speed;
         [SerializeField] private AssetReference _assetReference;
 
+        public string Name => name;
         public float BaseHealth => _baseHealth;
         public float Damage => _damage;
         public float Speed => _speed;

@@ -52,6 +52,7 @@ namespace Core.Invaders
                 var invader = _invaderFactory.Create();
                 invader.SetRoute(route);
                 invader.SetStartPosition(route.Spawner.Position);
+                invader.SetActiveView(true);
                 invader.SetStartWaypoint(startWaypoint);
                 invader.MoveToNextWaypoint();
                 

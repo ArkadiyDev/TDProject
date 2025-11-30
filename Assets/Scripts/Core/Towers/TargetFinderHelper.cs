@@ -6,12 +6,12 @@ namespace Core.Towers
 {
     public static class TargetFinderHelper
     {
-        public static bool TryFindTarget(Vector3 position, float radius, out InvaderView targetView, LayerMask layer)
+        public static bool TryFindTarget(Vector3 position, float radius, out IDamageable target, LayerMask layer)
         {
             var results = new Collider[64];
             Physics.OverlapSphereNonAlloc(position, radius, results, layer);
 
-            var views = new List<InvaderView>();
+            var targets = new List<IDamageable>();
 
             for (var i = 0; i < results.Length; i++)
             {
@@ -19,22 +19,25 @@ namespace Core.Towers
                 
                 if (!result)
                     break;
-
-                var view = result.GetComponent<InvaderView>();
-
-                if (!view)
+                
+                var invaderLink = result.GetComponent<InvaderLink>();
+                
+                if(!invaderLink)
+                    continue;
+                
+                if(!invaderLink.Damageable.IsAlive)
                     continue;
 
-                views.Add(view);
+                targets.Add(invaderLink.Damageable);
             }
 
-            if (views.Count == 0)
+            if (targets.Count == 0)
             {
-                targetView = null;
+                target = null;
                 return false;
             }
             
-            targetView = views[0];
+            target = targets[0];
             return true;
         }
     }

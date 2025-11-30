@@ -64,7 +64,6 @@ namespace Common.Pooling
 
         private void OnGet(T obj)
         {
-            obj.gameObject.SetActive(true);
         }
 
         private void OnRelease(T obj)

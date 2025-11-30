@@ -1,21 +1,28 @@
 using System;
+using Core.Invaders;
 using UnityEngine;
 
 namespace Core.Towers
 {
     public class ProjectileView : MonoBehaviour
     {
-        private Transform _target;
+        private IDamageable _target;
         private float _speed;
-        private bool _launched;
+        private float _damage;
         private Action _onHit;
+        private bool _launched;
 
-        public void Launch(Transform targetTransform, float speed, Action onHit)
+        public void SetOnHitAction(Action onHit)
         {
-            _target = targetTransform;
-            _speed = speed;
-            _launched = true;
             _onHit = onHit;
+        }
+        
+        public void Launch(IDamageable target, float speed, float damage)
+        {
+            _target = target;
+            _speed = speed;
+            _damage = damage;
+            _launched = true;
         }
 
         private void Update()
@@ -23,7 +30,7 @@ namespace Core.Towers
             if(!_launched)
                 return;
             
-            if (!_target)
+            if (_target == null)
             {
                 _onHit?.Invoke();
                 return;
@@ -34,7 +41,8 @@ namespace Core.Towers
 
             if (IsTargetAtDistance())
                 return;
-            
+
+            _target.TakeDamage(_damage);
             _launched = false;
             _onHit?.Invoke();
             _onHit = null;
@@ -42,18 +50,18 @@ namespace Core.Towers
 
         private void UpdateRotation()
         {
-            var direction = (_target.position - transform.position).normalized;
+            var direction = (_target.BodyPoint.position - transform.position).normalized;
             transform.rotation = Quaternion.LookRotation(direction);
         }
 
         private void UpdatePosition()
         {
-            transform.position = Vector3.MoveTowards(transform.position, _target.position, _speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, _target.BodyPoint.position, _speed * Time.deltaTime);
         }
 
         private bool IsTargetAtDistance()
         {
-            return Vector3.Distance(transform.position, _target.position) > 0f;
+            return Vector3.Distance(transform.position, _target.BodyPoint.position) > 0f;
         }
     }
 }

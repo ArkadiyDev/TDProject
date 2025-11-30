@@ -8,14 +8,14 @@ namespace Core.Towers
         private readonly TowerSettings _settings;
         private readonly TowerModel _model;
         private readonly TowerView _view;
-        private readonly ProjectileViewPool _projectileViewPool;
+        private readonly IProjectileFactory _projectileFactory;
 
-        public Tower(TowerSettings settings, TowerModel model, TowerView view, ProjectileViewPool projectileViewPool)
+        public Tower(TowerSettings settings, TowerModel model, TowerView view, IProjectileFactory projectileFactory)
         {
             _settings = settings;
             _model = model;
             _view = view;
-            _projectileViewPool = projectileViewPool;
+            _projectileFactory = projectileFactory;
         }
 
         public void Tick(float deltaTime)
@@ -32,9 +32,9 @@ namespace Core.Towers
             _model.ResetFireTimer();
         }
 
-        private bool TryFindTarget(out InvaderView targetView)
+        private bool TryFindTarget(out IDamageable target)
         {
-            return TargetFinderHelper.TryFindTarget(_view.transform.position, _model.Range, out targetView, _model.LayerMask);
+            return TargetFinderHelper.TryFindTarget(_view.transform.position, _model.Range, out target, _model.LayerMask);
         }
 
         private void UpdateFireTimer(float deltaTime)
@@ -42,12 +42,12 @@ namespace Core.Towers
             _model.СurrentFireTimer += deltaTime;
         }
 
-        private void Shoot(InvaderView targetView)
+        private void Shoot(IDamageable target)
         {
             Debug.Log($"Shooting with damage {_model.Damage}");
-            var projectiveView = _projectileViewPool.Get();
-            projectiveView.transform.position = _view.ProjectileStartPoint.position;
-            projectiveView.Launch(targetView.BodyTargetPoint, _settings.Projectile.Speed, () => _projectileViewPool.Release(projectiveView));
+            var projectile = _projectileFactory.CreateProjectile(_view.ProjectileStartPoint.position);
+            
+            projectile.Launch(target, _settings.Projectile.Speed, _settings.Damage);
         }
     }
 }
