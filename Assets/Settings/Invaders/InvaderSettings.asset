@@ -21,3 +21,7 @@ MonoBehaviour:
     m_SubObjectGUID: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
+  _rewards:
+    _currencies:
+    - _settings: {fileID: 11400000, guid: fb48c88d408f2ff488506d554fd50383, type: 2}
+      _amount: 1

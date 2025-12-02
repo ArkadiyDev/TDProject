@@ -1,4 +1,6 @@
 using Core.Arenas;
+using Economy;
+using Economy.Rewards;
 
 namespace Core.Invaders
 {
@@ -18,7 +20,8 @@ namespace Core.Invaders
         public float MaxHealth => _invaderSettings.BaseHealth;
         public bool IsAlive => !_IsDead;
         public Route Route => _route;
-        
+        public RewardData Rewards => _invaderSettings.Rewards;
+
         public InvaderModel(InvaderSettings invaderSettings)
         {
             _invaderSettings = invaderSettings;

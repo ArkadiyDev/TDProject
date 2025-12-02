@@ -723,6 +723,7 @@ MonoBehaviour:
   _invaderSettings: {fileID: 11400000, guid: 92bd0f49492ba7e4c878a4d881d50266, type: 2}
   _castleSettings: {fileID: 11400000, guid: be96ea432705134439f7ee7467867847, type: 2}
   _towerSettings: {fileID: 11400000, guid: 432da0172e151454088d0edd869eaf9d, type: 2}
+  _currenciesRoster: {fileID: 11400000, guid: 2edb301c2d216f54c8738acf4a893e7d, type: 2}
   _invaderViewPool: {fileID: 232531105}
   _towerViewPool: {fileID: 1733812126}
   _projectileViewPool: {fileID: 196862012}

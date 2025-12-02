@@ -1,5 +1,7 @@
 ﻿using System;
 using Core.Arenas;
+using Economy;
+using Economy.Rewards;
 using UnityEngine;
 
 namespace Core.Invaders
@@ -17,6 +19,7 @@ namespace Core.Invaders
         public float Damage => _model.Damage;
         private float Speed => _model.Speed;
         public bool IsAlive => _model.IsAlive;
+        public RewardData Rewards => _model.Rewards;
         public Transform BodyPoint => _view.BodyTargetPoint;
         
         public Invader(InvaderSettings invaderSettings, InvaderView view, Action<InvaderView> onRemove)

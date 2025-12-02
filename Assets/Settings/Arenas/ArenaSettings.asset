@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 434fc7afcb479f142873030297786459, type: 3}
   m_Name: ArenaSettings
   m_EditorClassIdentifier: 
+  _firstWaveDelay: 5
   _wavesInterval: 10
   _waves:
   - _invadersGroup:
@@ -25,3 +26,6 @@ MonoBehaviour:
     - _routeIndex: 0
       _invaderSettings: {fileID: 11400000, guid: 92bd0f49492ba7e4c878a4d881d50266, type: 2}
       _count: 20
+  _startCurrencies:
+  - _settings: {fileID: 11400000, guid: fb48c88d408f2ff488506d554fd50383, type: 2}
+    _amount: 10

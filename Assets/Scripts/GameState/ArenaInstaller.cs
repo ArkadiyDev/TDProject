@@ -4,6 +4,10 @@ using Core.Building;
 using Core.Castles;
 using Core.Invaders;
 using Core.Towers;
+using Economy;
+using Economy.Currencies;
+using Economy.Rewards;
+using Economy.Wallets;
 using InputSystem;
 using UnityEngine;
 using Zenject;
@@ -16,6 +20,7 @@ namespace GameState
         [SerializeField] private InvaderSettings _invaderSettings;
         [SerializeField] private CastleSettings _castleSettings;
         [SerializeField] private TowerSettings _towerSettings;
+        [SerializeField] private CurrencySettingsRoster _currenciesRoster;
         [SerializeField] private InvaderViewPool _invaderViewPool;
         [SerializeField] private TowerViewPool _towerViewPool;
         [SerializeField] private ProjectileViewPool _projectileViewPool;
@@ -25,6 +30,8 @@ namespace GameState
 
         public override void InstallBindings()
         {
+            BindWalletService();
+            BindRewardProvider();
             BindArenaSettings();
             BindCastleSettings();
             BindInvaderFactory();
@@ -33,6 +40,25 @@ namespace GameState
             BindProjectileFactory();
             BindTowerFactory();
             BindBuildingSystem();
+        }
+
+        private void BindWalletService()
+        {
+            Container
+                .Bind<IWalletService>()
+                .To<ArenaWalletService>()
+                .AsSingle()
+                .WithArguments(_currenciesRoster, _arenaSettings.StartCurrencies);
+        }
+
+        private void BindRewardProvider()
+        {
+            var walletService = Container.Resolve<IWalletService>();
+            Container
+                .Bind<IRewardProvider>()
+                .To<ArenaRewardProvider>()
+                .AsSingle()
+                .WithArguments(walletService);
         }
 
         private void BindArenaSettings()
