@@ -46,7 +46,7 @@ namespace GameState
         {
             Container
                 .Bind<IWalletService>()
-                .To<ArenaWalletService>()
+                .To<WalletService>()
                 .AsSingle()
                 .WithArguments(_currenciesRoster, _arenaSettings.StartCurrencies);
         }

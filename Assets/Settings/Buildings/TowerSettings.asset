@@ -26,3 +26,6 @@ MonoBehaviour:
   _range: 5
   _damage: 5
   _fireRate: 1
+  _cost:
+  - _settings: {fileID: 11400000, guid: fb48c88d408f2ff488506d554fd50383, type: 2}
+    _amount: 10

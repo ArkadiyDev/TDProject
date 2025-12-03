@@ -41,21 +41,22 @@ namespace Core.Building
             ChangeBuildingState(false);
         }
 
-        public void TryPlaceBuilding()
+        public bool TryPlaceBuilding()
         {
             if (!_isBuildingState)
-                return;
+                return false;
             
             if (CanBuild())
             {
                 OnPlacementSuccessful?.Invoke(_ghost.transform.position);
                 _isBuildingState = false;
                 _ghost.SetActive(false);
+                
+                return true;
             }
-            else
-            {
-                Debug.Log("Impossible to build on this place!");
-            }
+
+            Debug.Log("Impossible to build on this place!");
+            return false;
         }
 
         private void ChangeBuildingState(bool isBuilding)

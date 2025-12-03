@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using Core.Building;
+using Economy.Currencies;
 using UnityEngine;
 
 namespace Core.Towers
@@ -11,11 +13,13 @@ namespace Core.Towers
         [SerializeField] private float _range;
         [SerializeField] private float _damage;
         [SerializeField] private float _fireRate;
+        [SerializeField] private List<CurrencyData> _cost;
 
         public ProjectileSettings Projectile => _projectile;
         public LayerMask LayerMask => _layerMask;
         public float Range => _range;
         public float Damage => _damage;
         public float FireRate => _fireRate;
+        public List<CurrencyData> Cost => _cost;
     }
 }

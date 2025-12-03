@@ -13,15 +13,10 @@ namespace Economy.Rewards
         
         public void ApplyReward(RewardData rewardData)
         {
-            if (rewardData == null) return;
+            if (rewardData?.Currencies == null)
+                return;
 
-            foreach (var data in rewardData.Currencies)
-            {
-                if (!data.Settings)
-                    continue;
-                
-                _walletService.IncreaseCurrency(data.Settings.Id, data.Amount);
-            }
+            _walletService.IncreaseCurrencies(rewardData.Currencies);
         }
     }
 }

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Economy.Currencies;
 using UnityEngine;
 
 namespace Core.Towers
@@ -33,5 +35,8 @@ namespace Core.Towers
 
             return tower;
         }
+
+        public List<CurrencyData> GetTowerCost() =>
+            _towerSettings.Cost;
     }
 }

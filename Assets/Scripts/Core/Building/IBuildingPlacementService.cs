@@ -9,6 +9,6 @@ namespace Core.Building
         bool IsBuildingState { get; }
         void StartPlacement();
         void StopPlacement();
-        void TryPlaceBuilding();
+        bool TryPlaceBuilding();
     }
 }
