@@ -53,12 +53,10 @@ namespace GameState
 
         private void BindRewardProvider()
         {
-            var walletService = Container.Resolve<IWalletService>();
             Container
                 .Bind<IRewardProvider>()
                 .To<ArenaRewardProvider>()
-                .AsSingle()
-                .WithArguments(walletService);
+                .AsSingle();
         }
 
         private void BindArenaSettings()
@@ -79,23 +77,18 @@ namespace GameState
 
         private void BindInvaderDeathHandler()
         {
-            var rewardProvider = Container.Resolve<IRewardProvider>();
-            
             Container
                 .Bind<IInvaderDeathHandler>()
                 .To<InvaderDeathHandler>()
-                .AsSingle()
-                .WithArguments(rewardProvider);
+                .AsSingle();
         }
 
         private void BindInvaderFactory()
         {
-            var invaderDeathHandler = Container.Resolve<IInvaderDeathHandler>();
-            
             Container
                 .Bind<InvaderFactory>()
                 .AsSingle()
-                .WithArguments(_invaderSettings, _invaderViewPool, invaderDeathHandler);
+                .WithArguments(_invaderSettings, _invaderViewPool);
         }
 
         private void BindInputService()
@@ -108,13 +101,10 @@ namespace GameState
 
         private void BindGameSpeedService()
         {
-            var inputService = Container.Resolve<IInputService>();
-
             Container
                 .Bind<IGameSpeedService>()
                 .To<GameSpeedService>()
                 .AsSingle()
-                .WithArguments(inputService)
                 .NonLazy();
         }
         
@@ -129,19 +119,15 @@ namespace GameState
         
         private void BindTowerFactory()
         {
-            var projectileFactory =  Container.Resolve<IProjectileFactory>();
-            
             Container
                 .Bind<ITowerFactory>()
                 .To<TowerFactory>()
                 .AsSingle()
-                .WithArguments(_towerSettings, _towerViewPool, _towerHandler, projectileFactory);
+                .WithArguments(_towerSettings, _towerViewPool, _towerHandler);
         }
 
         private void BindBuildingSystem()
         {
-            var towerFactory = Container.Resolve<ITowerFactory>();
-            
             Container
                 .Bind<BuildingSystem>()
                 .AsSingle()
