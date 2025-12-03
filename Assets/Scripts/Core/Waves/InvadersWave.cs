@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using Core.Arenas;
+using Core.Invaders;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace Core.Invaders
+namespace Core.Waves
 {
     public class InvadersWave
     {
@@ -46,6 +47,9 @@ namespace Core.Invaders
             
             if (!route.TryGetFirstWaypoint(out var startWaypoint))
                 return;
+            
+            if (invadersGroup.DelayBeforeStart > 0)
+                await UniTask.Delay(TimeSpan.FromSeconds(invadersGroup.DelayBeforeStart));
             
             for (int i = 0; i < invadersGroup.Count; i++)
             {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Core.Invaders
+namespace Core.Waves
 {
     [Serializable]
     public class InvadersWaveData

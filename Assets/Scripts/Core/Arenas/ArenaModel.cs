@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Core.Invaders;
+using Core.Waves;
 using UnityEngine;
 
 namespace Core.Arenas
