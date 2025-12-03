@@ -1,5 +1,4 @@
 using Core.Arenas;
-using Economy;
 using Economy.Rewards;
 
 namespace Core.Invaders
@@ -13,6 +12,7 @@ namespace Core.Invaders
         private float _health;
         private bool _IsDead;
 
+        public InvaderSettings Settings => _invaderSettings;
         public string Name => _invaderSettings.Name;
         public float Damage => _invaderSettings.Damage;
         public float Speed => _invaderSettings.Speed;

@@ -4,7 +4,6 @@ using Core.Building;
 using Core.Castles;
 using Core.Invaders;
 using Core.Towers;
-using Economy;
 using Economy.Currencies;
 using Economy.Rewards;
 using Economy.Wallets;
@@ -34,6 +33,7 @@ namespace GameState
             BindRewardProvider();
             BindArenaSettings();
             BindCastleSettings();
+            BindInvaderDeathHandler();
             BindInvaderFactory();
             BindInputService();
             BindGameSpeedService();
@@ -77,12 +77,25 @@ namespace GameState
                 .AsSingle();
         }
 
+        private void BindInvaderDeathHandler()
+        {
+            var rewardProvider = Container.Resolve<IRewardProvider>();
+            
+            Container
+                .Bind<IInvaderDeathHandler>()
+                .To<InvaderDeathHandler>()
+                .AsSingle()
+                .WithArguments(rewardProvider);
+        }
+
         private void BindInvaderFactory()
         {
+            var invaderDeathHandler = Container.Resolve<IInvaderDeathHandler>();
+            
             Container
                 .Bind<InvaderFactory>()
                 .AsSingle()
-                .WithArguments(_invaderSettings, _invaderViewPool);
+                .WithArguments(_invaderSettings, _invaderViewPool, invaderDeathHandler);
         }
 
         private void BindInputService()
@@ -132,7 +145,7 @@ namespace GameState
             Container
                 .Bind<BuildingSystem>()
                 .AsSingle()
-                .WithArguments(_inputService, _buildingPlacementService, towerFactory)
+                .WithArguments(_inputService, _buildingPlacementService)
                 .NonLazy();
         }
     }
