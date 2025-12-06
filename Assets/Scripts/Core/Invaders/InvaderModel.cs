@@ -1,65 +1,31 @@
-using Core.Arenas;
-using Economy.Rewards;
-
 namespace Core.Invaders
 {
     public class InvaderModel
     {
-        private readonly InvaderSettings _invaderSettings;
+        public InvaderSettings Settings { get; }
+        public bool IsDead { get; private set; }
+        public float Health { get; private set; }
+
+        public float MaxHealth => Settings.BaseHealth;
+        public string Name => Settings.Name;
+        public float Damage => Settings.Damage;
+        public float Speed => Settings.Speed;
         
-        private Route _route;
-        private Waypoint _currentWaypoint;
-        private float _health;
-        private bool _IsDead;
-
-        public InvaderSettings Settings => _invaderSettings;
-        public string Name => _invaderSettings.Name;
-        public float Damage => _invaderSettings.Damage;
-        public float Speed => _invaderSettings.Speed;
-        public float Health => _health;
-        public float MaxHealth => _invaderSettings.BaseHealth;
-        public bool IsAlive => !_IsDead;
-        public Route Route => _route;
-        public RewardData Rewards => _invaderSettings.Rewards;
-
         public InvaderModel(InvaderSettings invaderSettings)
         {
-            _invaderSettings = invaderSettings;
-            
-            _health = _invaderSettings.BaseHealth;
+            Settings = invaderSettings;
+            Health = Settings.BaseHealth;
         }
         
-        public void ReduceHealth(float damageAmount)
+        public void TakeDamage(float damageAmount)
         {
-            _health -= damageAmount;
+            Health -= damageAmount;
 
-            if (_health > 0)
+            if (Health > 0)
                 return;
             
-            _health = 0;
-            _IsDead = true;
-        }
-        
-        public void SetRoute(Route route)
-        {
-            _route = route;
-        }
-        
-        public void SetCurrentWaypoint(Waypoint waypoint)
-        {
-            _currentWaypoint = waypoint;
-        }
-
-        public bool TryGetNextWaypoint(out Waypoint nextWaypoint)
-        {
-            if(_route.TryGetNextWaypoints(_currentWaypoint, out var waypoint))
-            {
-                nextWaypoint = waypoint;
-                return true;
-            }
-
-            nextWaypoint = null;
-            return false;
+            Health = 0;
+            IsDead = true;
         }
     }
 }

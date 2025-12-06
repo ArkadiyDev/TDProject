@@ -45,7 +45,7 @@ namespace Core.Waves
 
             var route = _routes[routeIndex];
             
-            if (!route.TryGetFirstWaypoint(out var startWaypoint))
+            if (!route.HasWaypoints)
                 return;
             
             if (invadersGroup.DelayBeforeStart > 0)
@@ -54,11 +54,9 @@ namespace Core.Waves
             for (int i = 0; i < invadersGroup.Count; i++)
             {
                 var invader = _invaderFactory.Create();
-                invader.SetRoute(route);
                 invader.SetStartPosition(route.Spawner.Position);
+                invader.StartRoute(route);
                 invader.SetActiveView(true);
-                invader.SetStartWaypoint(startWaypoint);
-                invader.MoveToNextWaypoint();
                 
                 _invaders.Add(invader);
                 invader.Removed += OnInvaderRemoved;

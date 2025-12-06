@@ -16,6 +16,8 @@ namespace Core.Arenas
         public Spawner Spawner => _spawner;
         public List<Waypoint> Waypoints => _waypoints;
         public CastleView CastleView => _castleView;
+        
+        public bool HasWaypoints => _waypoints.Count > 0;
 
         public bool TryGetFirstWaypoint(out Waypoint firstWaypoint)
         {

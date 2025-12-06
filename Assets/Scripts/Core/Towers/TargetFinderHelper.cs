@@ -25,7 +25,7 @@ namespace Core.Towers
                 if(!invaderLink)
                     continue;
                 
-                if(!invaderLink.Damageable.IsAlive)
+                if(invaderLink.Damageable.IsDead)
                     continue;
 
                 targets.Add(invaderLink.Damageable);

@@ -35,4 +35,4 @@ MonoBehaviour:
       _delayBeforeStart: 0
   _startCurrencies:
   - _settings: {fileID: 11400000, guid: fb48c88d408f2ff488506d554fd50383, type: 2}
-    _amount: 10
+    _amount: 15

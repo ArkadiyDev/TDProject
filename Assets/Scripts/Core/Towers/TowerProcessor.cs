@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Core.Towers
 {
-    public class TowerHandler : MonoBehaviour
+    public class TowerProcessor : MonoBehaviour
     {
         private readonly List<Tower> _activeTowers = new();
 

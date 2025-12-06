@@ -9,6 +9,7 @@ using Economy.Rewards;
 using Economy.Wallets;
 using InputSystem;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace GameState
@@ -23,7 +24,8 @@ namespace GameState
         [SerializeField] private InvaderViewPool _invaderViewPool;
         [SerializeField] private TowerViewPool _towerViewPool;
         [SerializeField] private ProjectileViewPool _projectileViewPool;
-        [SerializeField] private TowerHandler _towerHandler;
+        [SerializeField] private TowerProcessor _towerProcessor;
+        [SerializeField] private InvaderProcessor _invaderProcessor;
         [SerializeField] private BuildingPlacementService _buildingPlacementService;
         [SerializeField] private CoreInputService _inputService;
 
@@ -88,7 +90,7 @@ namespace GameState
             Container
                 .Bind<InvaderFactory>()
                 .AsSingle()
-                .WithArguments(_invaderSettings, _invaderViewPool);
+                .WithArguments(_invaderSettings, _invaderViewPool, _invaderProcessor);
         }
 
         private void BindInputService()
@@ -123,7 +125,7 @@ namespace GameState
                 .Bind<ITowerFactory>()
                 .To<TowerFactory>()
                 .AsSingle()
-                .WithArguments(_towerSettings, _towerViewPool, _towerHandler);
+                .WithArguments(_towerSettings, _towerViewPool, _towerProcessor);
         }
 
         private void BindBuildingSystem()
