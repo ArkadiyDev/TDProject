@@ -1,4 +1,5 @@
 ﻿using Common.GameSpeed;
+using Common.UI.FloatingText;
 using Core.Arenas;
 using Core.Building;
 using Core.Castles;
@@ -9,18 +10,19 @@ using Economy.Rewards;
 using Economy.Wallets;
 using InputSystem;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Zenject;
 
 namespace GameState
 {
     public class ArenaInstaller : MonoInstaller
     {
+        [SerializeField] private Camera _camera;
         [SerializeField] private ArenaSettings _arenaSettings;
         [SerializeField] private InvaderSettings _invaderSettings;
         [SerializeField] private CastleSettings _castleSettings;
         [SerializeField] private TowerSettings _towerSettings;
         [SerializeField] private CurrencySettingsRoster _currenciesRoster;
+        [SerializeField] private FloatingTextPool _floatingTextPool;
         [SerializeField] private InvaderViewPool _invaderViewPool;
         [SerializeField] private TowerViewPool _towerViewPool;
         [SerializeField] private ProjectileViewPool _projectileViewPool;
@@ -35,6 +37,7 @@ namespace GameState
             BindRewardProvider();
             BindArenaSettings();
             BindCastleSettings();
+            BindFloatingTextService();
             BindInvaderDeathHandler();
             BindInvaderFactory();
             BindInputService();
@@ -75,6 +78,15 @@ namespace GameState
                 .Bind<CastleSettings>()
                 .FromInstance(_castleSettings)
                 .AsSingle();
+        }
+
+        private void BindFloatingTextService()
+        {
+            Container
+                .Bind<IFloatingTextService>()
+                .To<FloatingTextService>()
+                .AsSingle()
+                .WithArguments(_floatingTextPool, _camera);
         }
 
         private void BindInvaderDeathHandler()

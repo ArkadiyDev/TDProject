@@ -1,12 +1,13 @@
 ﻿using System;
 using Core.Arenas;
+using Economy.Rewards;
 using UnityEngine;
 
 namespace Core.Invaders
 {
     public class Invader : IDamageable
     {
-        public event Action<InvaderSettings> Died; 
+        public event Action<Invader> Died; 
         public event Action<Invader> Removed;
 
         private readonly InvaderView _view;
@@ -23,8 +24,9 @@ namespace Core.Invaders
         public bool IsDead => _model.IsDead;
         public Transform BodyPoint => _view.BodyTargetPoint;
         public InvaderView View => _view;
-        
-        
+        public RewardData Rewards => _model.Settings.Rewards;
+
+
         public Invader(InvaderSettings invaderSettings, InvaderView view)
         {
             _model = new InvaderModel(invaderSettings);
@@ -75,7 +77,7 @@ namespace Core.Invaders
             
             Debug.Log($"{Name} died");
             
-            Died?.Invoke(_model.Settings);
+            Died?.Invoke(this);
             Remove();
         }
 

@@ -38,7 +38,7 @@
             _invaderViewPool.Release(invader.View);
         }
 
-        private void OnInvaderDied(InvaderSettings invaderSettings) =>
-            _invaderDeathHandler.InvaderDeathHandle(invaderSettings);
+        private void OnInvaderDied(Invader invader) =>
+            _invaderDeathHandler.InvaderDeathHandle(invader);
     }
 }
