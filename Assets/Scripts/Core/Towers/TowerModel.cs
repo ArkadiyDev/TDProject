@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Core.Towers
 {
     public class TowerModel
@@ -9,7 +7,6 @@ namespace Core.Towers
         public float СurrentFireTimer { get; set; }
         public float Range => _settings.Range;
         public float Damage => _settings.Damage;
-        public LayerMask LayerMask => _settings.LayerMask;
 
         public TowerModel(TowerSettings settings)
         {

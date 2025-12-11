@@ -23,6 +23,7 @@ MonoBehaviour:
   _layerMask:
     serializedVersion: 2
     m_Bits: 128
+  _targetsFinder: {fileID: 11400000, guid: b6f9fc56140750049a8a51958b7e1eb1, type: 2}
   _range: 5
   _damage: 5
   _fireRate: 1

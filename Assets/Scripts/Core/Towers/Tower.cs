@@ -34,7 +34,7 @@ namespace Core.Towers
 
         private bool TryFindTarget(out IDamageable target)
         {
-            return TargetFinderHelper.TryFindTarget(_view.transform.position, _model.Range, out target, _model.LayerMask);
+            return _settings.TargetsFinder.TryFindTarget(_view.transform.position, _model.Range, out target);
         }
 
         private void UpdateFireTimer(float deltaTime)
