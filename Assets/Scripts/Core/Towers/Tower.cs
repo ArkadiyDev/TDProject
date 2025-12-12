@@ -1,21 +1,26 @@
-using Core.Invaders;
+using Core.Damaging;
 using UnityEngine;
 
 namespace Core.Towers
 {
-    public class Tower
+    public class Tower : IAttacker
     {
         private readonly TowerSettings _settings;
         private readonly TowerModel _model;
         private readonly TowerView _view;
         private readonly IProjectileFactory _projectileFactory;
+        private readonly IDamageService _damageService;
 
-        public Tower(TowerSettings settings, TowerModel model, TowerView view, IProjectileFactory projectileFactory)
+        public float Damage => _model.Damage;
+
+        public Tower(TowerSettings settings, TowerModel model, TowerView view, IProjectileFactory projectileFactory,
+            IDamageService damageService)
         {
             _settings = settings;
             _model = model;
             _view = view;
             _projectileFactory = projectileFactory;
+            _damageService = damageService;
         }
 
         public void Tick(float deltaTime)
@@ -32,22 +37,19 @@ namespace Core.Towers
             _model.ResetFireTimer();
         }
 
-        private bool TryFindTarget(out IDamageable target)
-        {
-            return _settings.TargetsFinder.TryFindTarget(_view.transform.position, _model.Range, out target);
-        }
+        private bool TryFindTarget(out IDamageable target) =>
+            _settings.TargetsFinder.TryFindTarget(_view.transform.position, _model.Range, out target);
 
-        private void UpdateFireTimer(float deltaTime)
-        {
+        private void UpdateFireTimer(float deltaTime) =>
             _model.СurrentFireTimer += deltaTime;
-        }
 
         private void Shoot(IDamageable target)
         {
             Debug.Log($"Shooting with damage {_model.Damage}");
             var projectile = _projectileFactory.CreateProjectile(_view.ProjectileStartPoint.position);
             
-            projectile.Launch(target, _settings.Projectile.Speed, _settings.Damage);
+            projectile.Launch(target.BodyPoint, _settings.Projectile.Speed,
+                () => _damageService.ApplyDamage(this, target));
         }
     }
 }

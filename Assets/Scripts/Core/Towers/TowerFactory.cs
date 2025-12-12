@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Core.Damaging;
 using Economy.Currencies;
 using UnityEngine;
 
@@ -10,13 +11,16 @@ namespace Core.Towers
         private readonly TowerSettings _towerSettings;
         private readonly TowerProcessor _towerProcessor;
         private readonly IProjectileFactory _projectileFactory;
+        private readonly IDamageService _damageService;
 
-        public TowerFactory(TowerSettings settings, TowerViewPool towerViewPool, TowerProcessor towerProcessor, IProjectileFactory projectileFactory)
+        public TowerFactory(TowerSettings settings, TowerViewPool towerViewPool, TowerProcessor towerProcessor,
+            IProjectileFactory projectileFactory, IDamageService damageService)
         {
             _towerViewPool = towerViewPool;
             _towerSettings = settings;
             _towerProcessor = towerProcessor;
             _projectileFactory = projectileFactory;
+            _damageService = damageService;
 
             _towerViewPool.Init(_towerSettings.AssetReference);
         }
@@ -25,7 +29,7 @@ namespace Core.Towers
         {
             var view = _towerViewPool.Get();
             var model = new TowerModel(_towerSettings);
-            var tower = new Tower(_towerSettings, model, view, _projectileFactory);
+            var tower = new Tower(_towerSettings, model, view, _projectileFactory, _damageService);
 
             view.transform.position = position;
             view.gameObject.SetActive(true);

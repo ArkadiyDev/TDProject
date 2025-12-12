@@ -3,6 +3,7 @@ using Common.UI.FloatingText;
 using Core.Arenas;
 using Core.Building;
 using Core.Castles;
+using Core.Damaging;
 using Core.Invaders;
 using Core.Towers;
 using Economy.Currencies;
@@ -37,6 +38,7 @@ namespace GameState
             BindRewardProvider();
             BindArenaSettings();
             BindCastleSettings();
+            BindDamageService();
             BindFloatingTextService();
             BindInvaderDeathHandler();
             BindInvaderFactory();
@@ -45,6 +47,7 @@ namespace GameState
             BindProjectileFactory();
             BindTowerFactory();
             BindBuildingSystem();
+            BindObservers();
         }
 
         private void BindWalletService()
@@ -77,6 +80,14 @@ namespace GameState
             Container
                 .Bind<CastleSettings>()
                 .FromInstance(_castleSettings)
+                .AsSingle();
+        }
+
+        private void BindDamageService()
+        {
+            Container
+                .Bind<IDamageService>()
+                .To<DamageService>()
                 .AsSingle();
         }
 
@@ -147,6 +158,14 @@ namespace GameState
                 .AsSingle()
                 .WithArguments(_inputService, _buildingPlacementService)
                 .NonLazy();
+        }
+
+        private void BindObservers()
+        {
+            Container
+                .Bind<IInitializable>()
+                .To<DamageObserver>()
+                .AsSingle();
         }
     }
 }

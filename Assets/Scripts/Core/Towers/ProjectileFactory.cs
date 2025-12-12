@@ -17,7 +17,7 @@ namespace Core.Towers
             var projectile = _projectileViewPool.Get();
             projectile.transform.position = startPos;
             projectile.gameObject.SetActive(true);
-            projectile.SetOnHitAction(() => _projectileViewPool.Release(projectile));
+            projectile.SetOnCompletionAction(() => _projectileViewPool.Release(projectile));
             
             return projectile;
         }

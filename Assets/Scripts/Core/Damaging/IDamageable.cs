@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Core.Invaders
+namespace Core.Damaging
 {
     public interface IDamageable
     {
