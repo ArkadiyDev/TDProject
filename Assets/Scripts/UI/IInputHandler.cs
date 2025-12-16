@@ -1,9 +1,9 @@
-using UnityEngine;
+using InputSystem;
 
 namespace UI
 {
     public interface IInputHandler
     {
-        bool HandleKeyPressed(KeyCode keyCode);
+        bool HandleKeyPressed(InputIntent inputIntent);
     }
 }

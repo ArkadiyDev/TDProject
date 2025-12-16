@@ -1,4 +1,4 @@
-using UnityEngine;
+using InputSystem;
 
 namespace UI
 {
@@ -8,6 +8,6 @@ namespace UI
         void OpenPopup<TMediator>() where TMediator : IUIPopupMediator;
         void OpenDialog<TMediator>() where TMediator : IUIDialogMediator;
         void CloseCurrentWindow();
-        bool ProcessKeyInput(KeyCode keyCode);
+        bool ProcessKeyInput(InputIntent inputIntent);
     }
 }

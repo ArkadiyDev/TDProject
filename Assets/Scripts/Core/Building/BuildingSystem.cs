@@ -20,9 +20,21 @@ namespace Core.Building
             _towerFactory = towerFactory;
             _walletService = walletService;
 
-            _inputService.OnBuildingClicked += OnBuildingClicked;
-            _inputService.OnLeftMouseButtonClicked += OnLeftMouseButtonClicked;
+            _inputService.OnInputActionExecuted += OnInputActionExecute;
             _placementService.OnPlacementSuccessful += OnPlacementSuccessful;
+        }
+
+        private void OnInputActionExecute(InputIntent inputIntent)
+        {
+            switch (inputIntent)
+            {
+                case InputIntent.BuildMode:
+                    OnBuildingClicked();
+                    break;
+                case InputIntent.LeftMouseClick:
+                    OnLeftMouseButtonClicked();
+                    break;
+            }
         }
 
         private void OnBuildingClicked()
@@ -35,7 +47,8 @@ namespace Core.Building
 
         private void OnLeftMouseButtonClicked()
         {
-            TryBuildTower();
+            if(_placementService.IsBuildingState)
+                TryBuildTower();
         }
 
         private void OnPlacementSuccessful(Vector3 position)
@@ -46,11 +59,14 @@ namespace Core.Building
         private bool TryBuildTower()
         {
             var towerCost = _towerFactory.GetTowerCost();
-
-            if (!_walletService.TryDecreaseCurrencies(towerCost))
+            
+            if(!_walletService.CanAfford(towerCost))
                 return false;
 
             if (!_placementService.TryPlaceBuilding())
+                return false;
+            
+            if (!_walletService.TryDecreaseCurrencies(towerCost))
                 return false;
             
             _walletService.TryDecreaseCurrencies(towerCost);

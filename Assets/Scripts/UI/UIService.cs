@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using InputSystem;
 using UnityEngine;
 
 namespace UI
@@ -77,7 +78,7 @@ namespace UI
             _currentDialog.Show();
         }
 
-        public bool ProcessKeyInput(KeyCode keyCode)
+        public bool ProcessKeyInput(InputIntent keyCode)
         {
             if (_currentDialog is IInputHandler dialogHandler && dialogHandler.HandleKeyPressed(keyCode))
                 return true;
