@@ -4,7 +4,7 @@ namespace UI
 {
     public abstract class UIMediator<TView> : IUiMediator where TView : IUiView
     {
-        public event Action<IUiMediator> RequestClose;
+        public event Action CloseRequested;
 
         protected readonly TView _view;
         public virtual void Show() => _view.Open();
@@ -13,7 +13,7 @@ namespace UI
         protected UIMediator(TView view) =>
             _view = view;
 
-        protected void OnCloseButtonPressed() =>
-            RequestClose?.Invoke(this);
+        protected void CloseRequest() =>
+            CloseRequested?.Invoke();
     }
 }

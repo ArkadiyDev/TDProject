@@ -74,6 +74,15 @@ public partial class @InputSystem_CoreActions: IInputActionCollection2, IDisposa
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Escape"",
+                    ""type"": ""Button"",
+                    ""id"": ""d473a591-ab87-4e73-8f8f-dcaed398378f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""LeftMouseButton"",
                     ""type"": ""Button"",
                     ""id"": ""d6ac652c-65e3-4cb3-bb05-2ef5642b80b2"",
@@ -149,6 +158,17 @@ public partial class @InputSystem_CoreActions: IInputActionCollection2, IDisposa
                     ""action"": ""LeftMouseButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""07fe7eee-1da5-444d-b6c8-9024498871c2"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Escape"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -162,6 +182,7 @@ public partial class @InputSystem_CoreActions: IInputActionCollection2, IDisposa
         m_Hotkeys_GameSpeed_Triple = m_Hotkeys.FindAction("GameSpeed_Triple", throwIfNotFound: true);
         m_Hotkeys_GamePause = m_Hotkeys.FindAction("GamePause", throwIfNotFound: true);
         m_Hotkeys_Building = m_Hotkeys.FindAction("Building", throwIfNotFound: true);
+        m_Hotkeys_Escape = m_Hotkeys.FindAction("Escape", throwIfNotFound: true);
         m_Hotkeys_LeftMouseButton = m_Hotkeys.FindAction("LeftMouseButton", throwIfNotFound: true);
     }
 
@@ -234,6 +255,7 @@ public partial class @InputSystem_CoreActions: IInputActionCollection2, IDisposa
     private readonly InputAction m_Hotkeys_GameSpeed_Triple;
     private readonly InputAction m_Hotkeys_GamePause;
     private readonly InputAction m_Hotkeys_Building;
+    private readonly InputAction m_Hotkeys_Escape;
     private readonly InputAction m_Hotkeys_LeftMouseButton;
     public struct HotkeysActions
     {
@@ -244,6 +266,7 @@ public partial class @InputSystem_CoreActions: IInputActionCollection2, IDisposa
         public InputAction @GameSpeed_Triple => m_Wrapper.m_Hotkeys_GameSpeed_Triple;
         public InputAction @GamePause => m_Wrapper.m_Hotkeys_GamePause;
         public InputAction @Building => m_Wrapper.m_Hotkeys_Building;
+        public InputAction @Escape => m_Wrapper.m_Hotkeys_Escape;
         public InputAction @LeftMouseButton => m_Wrapper.m_Hotkeys_LeftMouseButton;
         public InputActionMap Get() { return m_Wrapper.m_Hotkeys; }
         public void Enable() { Get().Enable(); }
@@ -269,6 +292,9 @@ public partial class @InputSystem_CoreActions: IInputActionCollection2, IDisposa
             @Building.started += instance.OnBuilding;
             @Building.performed += instance.OnBuilding;
             @Building.canceled += instance.OnBuilding;
+            @Escape.started += instance.OnEscape;
+            @Escape.performed += instance.OnEscape;
+            @Escape.canceled += instance.OnEscape;
             @LeftMouseButton.started += instance.OnLeftMouseButton;
             @LeftMouseButton.performed += instance.OnLeftMouseButton;
             @LeftMouseButton.canceled += instance.OnLeftMouseButton;
@@ -291,6 +317,9 @@ public partial class @InputSystem_CoreActions: IInputActionCollection2, IDisposa
             @Building.started -= instance.OnBuilding;
             @Building.performed -= instance.OnBuilding;
             @Building.canceled -= instance.OnBuilding;
+            @Escape.started -= instance.OnEscape;
+            @Escape.performed -= instance.OnEscape;
+            @Escape.canceled -= instance.OnEscape;
             @LeftMouseButton.started -= instance.OnLeftMouseButton;
             @LeftMouseButton.performed -= instance.OnLeftMouseButton;
             @LeftMouseButton.canceled -= instance.OnLeftMouseButton;
@@ -318,6 +347,7 @@ public partial class @InputSystem_CoreActions: IInputActionCollection2, IDisposa
         void OnGameSpeed_Triple(InputAction.CallbackContext context);
         void OnGamePause(InputAction.CallbackContext context);
         void OnBuilding(InputAction.CallbackContext context);
+        void OnEscape(InputAction.CallbackContext context);
         void OnLeftMouseButton(InputAction.CallbackContext context);
     }
 }

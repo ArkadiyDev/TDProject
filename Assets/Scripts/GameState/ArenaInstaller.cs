@@ -10,6 +10,11 @@ using Economy.Currencies;
 using Economy.Rewards;
 using Economy.Wallets;
 using InputSystem;
+using UI;
+using UI.Implementations.ConfirmationDialog;
+using UI.Implementations.HUD;
+using UI.Implementations.PauseMenu;
+using UI.Implementations.Popup;
 using UnityEngine;
 using Zenject;
 
@@ -31,6 +36,7 @@ namespace GameState
         [SerializeField] private InvaderProcessor _invaderProcessor;
         [SerializeField] private BuildingPlacementService _buildingPlacementService;
         [SerializeField] private CoreInputService _inputService;
+        [SerializeField] private UICoreGameplayRoot _uiRoot;
 
         public override void InstallBindings()
         {
@@ -46,7 +52,8 @@ namespace GameState
             BindGameSpeedService();
             BindProjectileFactory();
             BindTowerFactory();
-            BindBuildingSystem();
+            BindBuildingService();
+            BindUIServices();
             BindObservers();
         }
 
@@ -151,13 +158,36 @@ namespace GameState
                 .WithArguments(_towerSettings, _towerViewPool, _towerProcessor);
         }
 
-        private void BindBuildingSystem()
+        private void BindBuildingService()
         {
             Container
-                .Bind<BuildingSystem>()
+                .Bind<IBuildingService>()
+                .To<BuildingService>()
                 .AsSingle()
-                .WithArguments(_inputService, _buildingPlacementService)
+                .WithArguments(_buildingPlacementService)
                 .NonLazy();
+        }
+
+        private void BindUIServices()
+        {
+            Container.BindInstance(_uiRoot.HUDView).AsSingle();
+            Container.BindInstance(_uiRoot.PauseMenuView).AsSingle();
+            Container.BindInstance(_uiRoot.PopupView).AsSingle();
+            Container.BindInstance(_uiRoot.ConfirmationDialogView).AsSingle();
+
+            Container.BindInterfacesAndSelfTo<HudMediator>().AsSingle();
+            Container.BindInterfacesAndSelfTo<PauseMenuMediator>().AsSingle();
+            Container.BindInterfacesAndSelfTo<PopupMediator>().AsSingle();
+            Container.BindInterfacesAndSelfTo<ConfirmationDialogMediator>().AsSingle();
+            
+            Container.Bind<IUIService>().To<UIService>().AsSingle();
+
+            Container.BindInterfacesTo<ConfirmationDialogObserver>().AsSingle();
+            Container.BindInterfacesTo<HudObserver>().AsSingle();
+            Container.BindInterfacesTo<PauseMenuObserver>().AsSingle();
+            Container.BindInterfacesTo<PopupObserver>().AsSingle();
+    
+            Container.BindInterfacesAndSelfTo<UIInputMediator>().AsSingle();
         }
 
         private void BindObservers()

@@ -26,12 +26,12 @@ namespace UI
             }
         }
 
-        public void OpenWindow<TMediator>() where TMediator : IUiMediator
+        public TMediator OpenWindow<TMediator>() where TMediator : IUiMediator
         {
             if (!_mediatorMap.TryGetValue(typeof(TMediator), out var mediatorToOpen))
             {
                 Debug.LogError($"Mediator of type {typeof(TMediator).Name} not found in map!");
-                return;
+                return default;
             }
             
             CloseCurrentDialog();
@@ -40,7 +40,7 @@ namespace UI
             if (_windowStack.Count > 0)
             {
                 if (_windowStack.Peek() == mediatorToOpen)
-                    return;
+                    return default;
                 
                 var current = _windowStack.Peek();
                 current.Hide();
@@ -48,34 +48,40 @@ namespace UI
         
             mediatorToOpen.Show();
             _windowStack.Push(mediatorToOpen);
+            
+            return (TMediator)mediatorToOpen;
         }
         
-        public void OpenPopup<TMediator>() where TMediator : IUIPopupMediator
+        public TMediator OpenPopup<TMediator>() where TMediator : IUIPopupMediator
         {
             CloseCurrentPopup();
             
             if (!_mediatorMap.TryGetValue(typeof(TMediator), out var mediator))
             {
                 Debug.LogError($"Mediator of type {typeof(TMediator).Name} not found in map!");
-                return;
+                return default;
             }
             
             _currentPopup = (IUIPopupMediator)mediator;
             _currentPopup.Show();
+            
+            return (TMediator)mediator;
         }
 
-        public void OpenDialog<TMediator>() where TMediator : IUIDialogMediator
+        public TMediator OpenDialog<TMediator>() where TMediator : IUIDialogMediator
         {
             CloseCurrentDialog();
             
             if (!_mediatorMap.TryGetValue(typeof(TMediator), out var mediator))
             {
                 Debug.LogError($"Mediator of type {typeof(TMediator).Name} not found in map!");
-                return;
+                return default;
             }
             
             _currentDialog = (IUIDialogMediator)mediator;
             _currentDialog.Show();
+            
+            return (TMediator)mediator;
         }
 
         public bool ProcessKeyInput(InputIntent keyCode)
@@ -107,7 +113,7 @@ namespace UI
             _windowStack.Peek().Show();
         }
 
-        private void CloseCurrentDialog()
+        public void CloseCurrentDialog()
         {
             if (_currentDialog == null)
                 return;
@@ -116,7 +122,7 @@ namespace UI
             _currentDialog = null;
         }
 
-        private void CloseCurrentPopup()
+        public void CloseCurrentPopup()
         {
             if (_currentPopup == null)
                 return;

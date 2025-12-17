@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using InputSystem;
 using UnityEngine;
 
@@ -6,44 +7,30 @@ namespace Common.GameSpeed
     public class GameSpeedService : IGameSpeedService
     {
         private readonly IInputService _inputService;
+        private readonly Dictionary<GameSpeed, float> _speedMap = new()
+        {
+            {GameSpeed.Pause, 0f},
+            {GameSpeed.Normal, 1f},
+            {GameSpeed.Double, 2f},
+            {GameSpeed.Triple, 3f},
+        };
         
-        public bool IsPaused => Mathf.Approximately(Time.timeScale, 0);
-
-        public GameSpeedService(IInputService inputService)
-        {
-            _inputService = inputService;
-            _inputService.OnInputActionExecuted += OnInputActionExecute;
-        }
-
-        private void OnInputActionExecute(InputIntent inputIntent)
-        {
-            switch (inputIntent)
-            {
-                case InputIntent.PauseSwitch:
-                    SwitchPause();
-                    break;
-                case InputIntent.SpeedNormal:
-                    SetSpeed(1f);
-                    break;
-                case InputIntent.SpeedDouble:
-                    SetSpeed(2f);
-                    break;
-                case InputIntent.SpeedTriple:
-                    SetSpeed(3f);
-                    break;
-            }
-        }
+        public bool IsPaused =>
+            Mathf.Approximately(Time.timeScale, 0);
 
         public void SetPaused() =>
-            SetSpeed(0);
+            SetSpeed(GameSpeed.Pause);
 
-        private void SwitchPause() =>
-            SetSpeed(IsPaused ? 0 : 1);
+        public void SetUnpaused() =>
+            SetSpeed(GameSpeed.Normal);
 
-        private void SetSpeed(float speed)
+        public void SetSpeed(GameSpeed speed)
         {
-            Time.timeScale = speed;
-            Debug.Log("Game speed changed to: " + speed);
+            Time.timeScale = _speedMap[speed];
+            Debug.Log("Game speed changed to: " + _speedMap[speed]);
         }
+
+        public void SwitchPause() =>
+            SetSpeed(IsPaused ? GameSpeed.Normal : GameSpeed.Pause);
     }
 }

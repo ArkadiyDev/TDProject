@@ -18,6 +18,7 @@ namespace InputSystem
                 { "GameSpeed_Double", InputIntent.SpeedDouble },
                 { "GameSpeed_Triple", InputIntent.SpeedTriple },
                 { "Building", InputIntent.BuildMode },
+                { "Escape", InputIntent.Escape },
                 { "LeftMouseButton", InputIntent.LeftMouseClick },
             };
         

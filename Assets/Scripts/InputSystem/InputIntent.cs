@@ -7,6 +7,7 @@ namespace InputSystem
         SpeedDouble,
         SpeedTriple,
         BuildMode,
+        Escape,
         LeftMouseClick
     }
 }

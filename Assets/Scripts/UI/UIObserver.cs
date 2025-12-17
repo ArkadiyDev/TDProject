@@ -1,8 +1,9 @@
+using System;
 using Zenject;
 
 namespace UI
 {
-    public abstract class UIObserver<TMediator> : IInitializable where TMediator : IUiMediator
+    public abstract class UIObserver<TMediator> : IInitializable, IDisposable where TMediator : IUiMediator
     {
         protected readonly IUIService _uiService;
         protected TMediator _mediator;
@@ -14,6 +15,10 @@ namespace UI
         }
 
         public virtual void Initialize()
+        {
+        }
+
+        public virtual void Dispose()
         {
         }
     }

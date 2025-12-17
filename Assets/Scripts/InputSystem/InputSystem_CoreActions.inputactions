@@ -51,6 +51,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Escape",
+                    "type": "Button",
+                    "id": "d473a591-ab87-4e73-8f8f-dcaed398378f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "LeftMouseButton",
                     "type": "Button",
                     "id": "d6ac652c-65e3-4cb3-bb05-2ef5642b80b2",
@@ -124,6 +133,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "LeftMouseButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "07fe7eee-1da5-444d-b6c8-9024498871c2",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Escape",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

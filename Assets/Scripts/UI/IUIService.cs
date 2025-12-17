@@ -4,10 +4,12 @@ namespace UI
 {
     public interface IUIService
     {
-        void OpenWindow<TMediator>() where TMediator : IUiMediator;
-        void OpenPopup<TMediator>() where TMediator : IUIPopupMediator;
-        void OpenDialog<TMediator>() where TMediator : IUIDialogMediator;
+        TMediator OpenWindow<TMediator>() where TMediator : IUiMediator;
+        TMediator OpenPopup<TMediator>() where TMediator : IUIPopupMediator;
+        TMediator OpenDialog<TMediator>() where TMediator : IUIDialogMediator;
         void CloseCurrentWindow();
+        void CloseCurrentDialog();
+        void CloseCurrentPopup();
         bool ProcessKeyInput(InputIntent inputIntent);
     }
 }
