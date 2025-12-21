@@ -9,16 +9,14 @@ namespace Core.Towers
     {
         private readonly TowerViewPool _towerViewPool;
         private readonly TowerSettings _towerSettings;
-        private readonly TowerProcessor _towerProcessor;
         private readonly IProjectileFactory _projectileFactory;
         private readonly IDamageService _damageService;
 
-        public TowerFactory(TowerSettings settings, TowerViewPool towerViewPool, TowerProcessor towerProcessor,
-            IProjectileFactory projectileFactory, IDamageService damageService)
+        public TowerFactory(TowerSettings settings, TowerViewPool towerViewPool, IProjectileFactory projectileFactory,
+            IDamageService damageService)
         {
             _towerViewPool = towerViewPool;
             _towerSettings = settings;
-            _towerProcessor = towerProcessor;
             _projectileFactory = projectileFactory;
             _damageService = damageService;
 
@@ -28,15 +26,14 @@ namespace Core.Towers
         public Tower CreateTower(Vector3 position)
         {
             var view = _towerViewPool.Get();
-            var model = new TowerModel(_towerSettings);
-            var tower = new Tower(_towerSettings, model, view, _projectileFactory, _damageService);
+            var tower = new Tower(_towerSettings, view, _projectileFactory, _damageService);
 
             view.transform.position = position;
             view.gameObject.SetActive(true);
             view.InitializeVisuals(_towerSettings.Range);
-            
-            _towerProcessor.RegisterTower(tower);
 
+            tower.Demolished += () => _towerViewPool.Release(view);
+            
             return tower;
         }
 

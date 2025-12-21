@@ -16,6 +16,7 @@ using UI.Implementations.HUD;
 using UI.Implementations.PauseMenu;
 using UI.Implementations.Popup;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace GameState
@@ -32,14 +33,15 @@ namespace GameState
         [SerializeField] private InvaderViewPool _invaderViewPool;
         [SerializeField] private TowerViewPool _towerViewPool;
         [SerializeField] private ProjectileViewPool _projectileViewPool;
-        [SerializeField] private TowerProcessor _towerProcessor;
-        [SerializeField] private InvaderProcessor _invaderProcessor;
+        [SerializeField] private BuildingProcessor _buildingProcessor;
+        [SerializeField] private InvaderSystem _invaderSystem;
         [SerializeField] private BuildingPlacementService _buildingPlacementService;
         [SerializeField] private CoreInputService _inputService;
         [SerializeField] private UICoreGameplayRoot _uiRoot;
 
         public override void InstallBindings()
         {
+            BindInvaderProcessor();
             BindWalletService();
             BindRewardProvider();
             BindArenaSettings();
@@ -53,15 +55,20 @@ namespace GameState
             BindProjectileFactory();
             BindTowerFactory();
             BindBuildingService();
+            BindArenaResetables();
             BindUIServices();
             BindObservers();
+        }
+
+        private void BindInvaderProcessor()
+        {
+            Container.BindInstance(_invaderSystem).AsSingle();
         }
 
         private void BindWalletService()
         {
             Container
-                .Bind<IWalletService>()
-                .To<WalletService>()
+                .BindInterfacesAndSelfTo<WalletService>()
                 .AsSingle()
                 .WithArguments(_currenciesRoster, _arenaSettings.StartCurrencies);
         }
@@ -120,7 +127,7 @@ namespace GameState
             Container
                 .Bind<InvaderFactory>()
                 .AsSingle()
-                .WithArguments(_invaderSettings, _invaderViewPool, _invaderProcessor);
+                .WithArguments(_invaderSettings, _invaderViewPool);
         }
 
         private void BindInputService()
@@ -155,17 +162,22 @@ namespace GameState
                 .Bind<ITowerFactory>()
                 .To<TowerFactory>()
                 .AsSingle()
-                .WithArguments(_towerSettings, _towerViewPool, _towerProcessor);
+                .WithArguments(_towerSettings, _towerViewPool);
         }
 
         private void BindBuildingService()
         {
             Container
-                .Bind<IBuildingService>()
-                .To<BuildingService>()
+                .BindInterfacesAndSelfTo<BuildingService>()
                 .AsSingle()
-                .WithArguments(_buildingPlacementService)
+                .WithArguments(_buildingPlacementService, _buildingProcessor)
                 .NonLazy();
+        }
+        
+        private void BindArenaResetables()
+        {
+            Container.Bind<ArenaRestartHandler>()
+                .AsSingle();
         }
 
         private void BindUIServices()

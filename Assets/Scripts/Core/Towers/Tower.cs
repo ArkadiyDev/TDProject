@@ -1,10 +1,14 @@
+using System;
+using Core.Building;
 using Core.Damaging;
 using UnityEngine;
 
 namespace Core.Towers
 {
-    public class Tower : IAttacker
+    public class Tower : IAttacker, IBuilding
     {
+        public event Action Demolished;
+        
         private readonly TowerSettings _settings;
         private readonly TowerModel _model;
         private readonly TowerView _view;
@@ -13,11 +17,10 @@ namespace Core.Towers
 
         public float Damage => _model.Damage;
 
-        public Tower(TowerSettings settings, TowerModel model, TowerView view, IProjectileFactory projectileFactory,
-            IDamageService damageService)
+        public Tower(TowerSettings settings, TowerView view, IProjectileFactory projectileFactory, IDamageService damageService)
         {
             _settings = settings;
-            _model = model;
+            _model = new TowerModel(settings);
             _view = view;
             _projectileFactory = projectileFactory;
             _damageService = damageService;
@@ -35,6 +38,12 @@ namespace Core.Towers
             
             Shoot(target);
             _model.ResetFireTimer();
+        }
+
+        public void Demolish()
+        {
+            Demolished?.Invoke();
+            Demolished = null;
         }
 
         private bool TryFindTarget(out IDamageable target) =>

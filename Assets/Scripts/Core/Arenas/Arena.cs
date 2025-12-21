@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Core.Arenas
 {
-    public class Arena
+    public class Arena : IResettable
     {
         public event Action OnGameOver;
         public event Action OnGameWon;
@@ -15,10 +15,11 @@ namespace Core.Arenas
         private readonly ArenaModel _arenaModel;
         private readonly Castle _castle; 
 
-        public Arena(ArenaView arenaView, ArenaSettings arenaSettings, InvaderFactory invaderFactory, CastleSettings castleSettings)
+        public Arena(ArenaView arenaView, ArenaSettings arenaSettings, InvaderFactory invaderFactory,
+            CastleSettings castleSettings, InvaderSystem invaderSystem)
         {
             _arenaSettings = arenaSettings;
-            _arenaModel = new ArenaModel(arenaSettings, invaderFactory, arenaView.Routes);
+            _arenaModel = new ArenaModel(arenaSettings, invaderFactory, invaderSystem, arenaView.Routes);
             _castle = new Castle(castleSettings, arenaView.CastleView);
 
             _castle.Destroyed += OnCastleDestroyed;
@@ -32,12 +33,16 @@ namespace Core.Arenas
             _arenaModel.StartNextWave();
         }
 
+        public void Reset()
+        {
+            _arenaModel.StopWave();
+            _castle.Reset();
+        }
+
         private void OnCastleDestroyed()
         {
             _arenaModel.StopWave();
             OnGameOver?.Invoke();
-            
-            _castle.Destroyed -= OnCastleDestroyed;
         }
         
         private void OnWaveCompleted()
@@ -47,7 +52,7 @@ namespace Core.Arenas
         
         private async UniTaskVoid HandleWaveCompletedAsync()
         {
-            if(_arenaModel.IsWaveStopped)
+            if(_arenaModel.WaveStopped)
                 return;
                 
             Debug.Log($"Wave {_arenaModel.CurrentWaveIndex} completed");

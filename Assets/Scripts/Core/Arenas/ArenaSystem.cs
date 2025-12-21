@@ -1,8 +1,5 @@
-﻿using System;
-using Core.Castles;
+﻿using Core.Castles;
 using Core.Invaders;
-using Economy;
-using Economy.Wallets;
 using UnityEngine;
 using Zenject;
 
@@ -13,19 +10,18 @@ namespace Core.Arenas
         [SerializeField] private ArenaView _arenaView;
         
         private Arena _arena;
-        private IWalletService _walletService;
+        private ArenaRestartHandler _arenaRestartHandler;
         
         [Inject]
-        private void Construct(ArenaSettings arenaSettings, InvaderFactory invaderFactory, IWalletService walletService,
-            CastleSettings castleSettings)
+        private void Construct(ArenaSettings arenaSettings, InvaderFactory invaderFactory, InvaderSystem invaderSystem,
+            CastleSettings castleSettings, ArenaRestartHandler arenaRestartHandler)
         {
-            _arena = new Arena(_arenaView, arenaSettings, invaderFactory, castleSettings);
+            _arena = new Arena(_arenaView, arenaSettings, invaderFactory, castleSettings, invaderSystem);
             
             _arena.OnGameOver += OnArenaGameOver;
             _arena.OnGameWon += OnArenaGameWon;
-
-            _walletService = walletService;
-            _walletService.CurrencyChanged += OnCurrencyChanged;
+            
+            _arenaRestartHandler = arenaRestartHandler;
             
             RunWaves();
         }
@@ -38,16 +34,21 @@ namespace Core.Arenas
         private void OnArenaGameOver()
         {
             Debug.Log("ArenaSystem: Game Over!");
+            RestartArena();
         }
     
         private void OnArenaGameWon()
         {
             Debug.Log("ArenaSystem: Victory!");
+            RestartArena();
         }
 
-        private void OnCurrencyChanged(string id, int delta)
+        private void RestartArena()
         {
-            Debug.Log($"Currency {id} changed, delta: {delta}, current value: {_walletService.GetCurrency(id)}");
+            _arenaRestartHandler.Restart();
+            _arena.Reset();
+            
+            _arena.RunGameFlow().Forget();
         }
     }
 }

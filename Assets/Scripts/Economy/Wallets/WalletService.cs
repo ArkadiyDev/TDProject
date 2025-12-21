@@ -1,23 +1,27 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Arenas;
 using Economy.Currencies;
 using UnityEngine;
 
 namespace Economy.Wallets
 {
-    public class WalletService : IWalletService
+    public class WalletService : IWalletService, IResettable
     {
         public event Action<string, int> CurrencyChanged;
 
+        private readonly List<CurrencyData> _startCurrencies;
         private readonly Dictionary<string, int> _currencies = new();
         
         public WalletService(CurrencySettingsRoster currencySettingsRoster, List<CurrencyData> startCurrencies)
         {
+            _startCurrencies = startCurrencies;
+            
             foreach (var settings in currencySettingsRoster.Currencies)
                 _currencies.Add(settings.Id, 0);
 
-            foreach (var startCurrency in startCurrencies)
+            foreach (var startCurrency in _startCurrencies)
                 ChangeCurrency(startCurrency.Settings.Id, startCurrency.Amount);
         }
 
@@ -48,6 +52,15 @@ namespace Economy.Wallets
 
         public bool CanAfford(List<CurrencyData> currencies) =>
             currencies.All(currency => CanAfford(currency.Settings.Id, currency.Amount));
+
+        public void Reset()
+        {
+            foreach (var key in _currencies.Keys.ToList())
+                ChangeCurrency(key, -_currencies[key]);
+            
+            foreach (var startCurrency in _startCurrencies)
+                ChangeCurrency(startCurrency.Settings.Id, startCurrency.Amount);
+        }
 
         private void IncreaseCurrency(string currencyId, int amount)
         {

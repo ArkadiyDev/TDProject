@@ -12,34 +12,40 @@ namespace Core.Arenas
         
         private readonly ArenaSettings _arenaSettings;
         private readonly InvaderFactory _invaderFactory;
+        private readonly InvaderSystem _invaderSystem;
         private readonly List<Route> _routes;
-        
+
+        private InvadersWave _currentWave;
         private int _currentWaveIndex;
         private bool _waveStopped;
         
-        public bool IsWaveStopped => _waveStopped;
+        public bool WaveStopped => _waveStopped;
         public int CurrentWaveIndex => _currentWaveIndex;
         public bool IsLastWave => _currentWaveIndex >= _arenaSettings.Waves.Count;
 
-        public ArenaModel(ArenaSettings arenaSettings, InvaderFactory invaderFactory, List<Route> routes)
+        public ArenaModel(ArenaSettings arenaSettings, InvaderFactory invaderFactory, InvaderSystem invaderSystem, List<Route> routes)
         {
             _arenaSettings = arenaSettings;
             _invaderFactory = invaderFactory;
+            _invaderSystem = invaderSystem;
             _routes = routes;
         }
         
         public void StartNextWave()
         {
-            var invadersWave = new InvadersWave(GetCurrentWave(), _invaderFactory, _routes);
-            invadersWave.WaveCompleted += OnInvadersWaveCompleted;
+            var waveData = _arenaSettings.Waves[_currentWaveIndex];
             
-            invadersWave.StartWave();
+            _currentWave = new InvadersWave(waveData, _invaderFactory, _routes, _invaderSystem);
+            _currentWave.WaveCompleted += OnInvadersWaveCompleted;
+            _currentWave.StartWave();
+            
             Debug.Log($"Wave {_currentWaveIndex} started");
         }
 
         public void StopWave()
         {
             _waveStopped = true;
+            _currentWave.StopWave();
             Debug.Log($"Wave {_currentWaveIndex} stopped");
         }
         
@@ -49,11 +55,6 @@ namespace Core.Arenas
                 _currentWaveIndex++;
         }
 
-        private InvadersWaveData GetCurrentWave()
-        {
-            return _arenaSettings.Waves[_currentWaveIndex];
-        }
-        
         private void OnInvadersWaveCompleted(InvadersWave invadersWave)
         {
             invadersWave.WaveCompleted -= OnInvadersWaveCompleted;

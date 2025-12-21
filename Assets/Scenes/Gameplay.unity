@@ -1594,7 +1594,7 @@ GameObject:
   - component: {fileID: 663944730}
   - component: {fileID: 663944729}
   m_Layer: 0
-  m_Name: InvaderProcessor
+  m_Name: InvaderSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2192,7 +2192,7 @@ GameObject:
   - component: {fileID: 891705551}
   - component: {fileID: 891705550}
   m_Layer: 0
-  m_Name: TowerProcessor
+  m_Name: BuildingProcessor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2573,8 +2573,8 @@ MonoBehaviour:
   _invaderViewPool: {fileID: 232531105}
   _towerViewPool: {fileID: 1733812126}
   _projectileViewPool: {fileID: 196862012}
-  _towerProcessor: {fileID: 891705550}
-  _invaderProcessor: {fileID: 663944729}
+  _buildingProcessor: {fileID: 891705550}
+  _invaderSystem: {fileID: 663944729}
   _buildingPlacementService: {fileID: 395659461}
   _inputService: {fileID: 1408770195}
   _uiRoot: {fileID: 705230947}

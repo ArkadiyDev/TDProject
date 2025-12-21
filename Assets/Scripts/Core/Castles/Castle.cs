@@ -1,13 +1,16 @@
 ﻿using System;
+using Core.Arenas;
 using Core.Invaders;
 using UnityEngine;
 
 namespace Core.Castles
 {
-    public class Castle
+    public class Castle : IResettable
     {
         public event Action Destroyed;
         
+        private readonly CastleSettings _settings;
+
         private float _health;
         private CastleView _castleView;
 
@@ -15,7 +18,9 @@ namespace Core.Castles
 
         public Castle(CastleSettings settings, CastleView castleView)
         {
-            _health = settings.BaseHealth;
+            _settings = settings;
+            
+            _health = _settings.BaseHealth;
             _castleView = castleView;
 
             _castleView.InvaderEntered += OnInvaderEntered;
@@ -23,9 +28,9 @@ namespace Core.Castles
 
         private void OnInvaderEntered(Invader invader)
         {
-            Debug.Log($"{invader.Name} dealt {invader.Damage} damage to the Castle, Castle health is {_health}");
-
             TakeDamage(invader.Damage);
+            
+            Debug.Log($"{invader.Name} dealt {invader.Damage} damage to the Castle, Castle health is {_health}");
         }
 
         public void TakeDamage(float amount)
@@ -33,6 +38,12 @@ namespace Core.Castles
             _health -= amount;
             if (_health <= 0)
                 Die();
+        }
+
+        public void Reset()
+        {
+            _health = _settings.BaseHealth;
+            Debug.Log($"Reset Castle, Castle health is {_health}");
         }
 
         private void Die()

@@ -8,7 +8,7 @@ namespace Core.Invaders
 {
     public class Invader : IDamageable
     {
-        public event Action<Invader> Died; 
+        public event Action<Invader> Died;
         public event Action<Invader> Removed;
 
         private readonly InvaderView _view;
@@ -18,7 +18,7 @@ namespace Core.Invaders
         
         private Route _route;
         private Waypoint _currentWaypoint;
-        private bool _isMoving;
+        private bool _isRemoved;
 
         public string Name => _model.Name;
         public float Damage => _model.Damage;
@@ -32,7 +32,7 @@ namespace Core.Invaders
         {
             _model = new InvaderModel(invaderSettings);
             _view = view;
-            
+
             _movementProcessor = new InvaderMovementProcessor(_view, _model);
             _movementProcessor.ReachedLastWaypoint += OnReachedLastWaypoint;
             
@@ -52,18 +52,8 @@ namespace Core.Invaders
         public void SetActiveView(bool active) =>
             _view.gameObject.SetActive(active);
 
-        public void Tick(float deltaTime)
-        {
+        public void Tick(float deltaTime) =>
             _movementProcessor.ProcessMovement(deltaTime);
-        }
-
-        private void OnReachedLastWaypoint()
-        {
-            if (_route.CastleView)
-                _route.CastleView.Enter(this);
-            
-            Remove();
-        }
 
         public void TakeDamage(float damageAmount)
         {
@@ -76,17 +66,32 @@ namespace Core.Invaders
             if(!IsDead)
                 return;
             
-            Debug.Log($"{Name} died");
-            
             Died?.Invoke(this);
+            Debug.Log($"{Name} died");
             Remove();
         }
 
-        private void Remove()
+        public void Remove()
         {
+            if(_isRemoved)
+                return;
+
+            _isRemoved = true;
+            
+            _movementProcessor.ReachedLastWaypoint -= OnReachedLastWaypoint;
+            _movementProcessor.StopMoving();
+            
             _link.Reset();
             
             Removed?.Invoke(this);
+        }
+
+        private void OnReachedLastWaypoint()
+        {
+            if (_route.CastleView)
+                _route.CastleView.Enter(this);
+            
+            Remove();
         }
     }
 }

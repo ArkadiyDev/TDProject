@@ -5,5 +5,6 @@ namespace Core.Building
         bool IsBuildingState { get; }
         void SwitchBuildingMode();
         void TryBuildTower();
+        void RemoveBuilding(IBuilding building);
     }
 }

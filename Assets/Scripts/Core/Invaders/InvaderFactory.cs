@@ -1,44 +1,39 @@
-﻿namespace Core.Invaders
+﻿using Core.Arenas;
+
+namespace Core.Invaders
 {
     public class InvaderFactory
     {
         private readonly InvaderSettings _invaderSettings;
         private readonly InvaderViewPool _invaderViewPool;
         private readonly IInvaderDeathHandler _invaderDeathHandler; 
-        private readonly InvaderProcessor _invaderProcessor; 
+        private readonly InvaderSystem _invaderSystem; 
 
         public InvaderFactory(InvaderSettings invaderSettings, InvaderViewPool invaderViewPool,
-            IInvaderDeathHandler invaderDeathHandler, InvaderProcessor invaderProcessor)
+            IInvaderDeathHandler invaderDeathHandler, InvaderSystem invaderSystem)
         {
             _invaderSettings = invaderSettings;
             _invaderViewPool = invaderViewPool;
             _invaderDeathHandler = invaderDeathHandler;
-            _invaderProcessor = invaderProcessor;
+            _invaderSystem = invaderSystem;
             
             _invaderViewPool.Init(_invaderSettings.AssetReference);
         }
 
-        public Invader Create()
+        public Invader Create(Route route)
         {
-            var invaderView = _invaderViewPool.Get();
+            var view = _invaderViewPool.Get();
+            var invader = new Invader(_invaderSettings, view);
+        
+            invader.SetStartPosition(route.Spawner.Position);
+            invader.StartRoute(route);
+            invader.SetActiveView(true);
 
-            var invader = new Invader(_invaderSettings, invaderView);
-
-            invader.Removed += OnInvaderRemoved;
-            invader.Died += OnInvaderDied;
-            
-            _invaderProcessor.RegisterInvader(invader);
+            invader.Died += i => _invaderDeathHandler.InvaderDeathHandle(i);
+            _invaderSystem.Add(invader);
+            invader.Removed += (i) => _invaderViewPool.Release(i.View);
 
             return invader;
         }
-
-        private void OnInvaderRemoved(Invader invader)
-        {
-            _invaderProcessor.UnregisterInvader(invader);
-            _invaderViewPool.Release(invader.View);
-        }
-
-        private void OnInvaderDied(Invader invader) =>
-            _invaderDeathHandler.InvaderDeathHandle(invader);
     }
 }
