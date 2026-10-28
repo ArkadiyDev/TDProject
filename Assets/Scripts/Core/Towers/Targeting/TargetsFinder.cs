@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Core.Damaging;
-using Core.Invaders;
 using UnityEngine;
 
 namespace Core.Towers.Targeting
@@ -10,12 +9,12 @@ namespace Core.Towers.Targeting
         [SerializeField] private LayerMask _layerMask;
         public abstract bool TryFindTarget(Vector3 position, float radius, out IDamageable target);
 
-        protected bool TryFindTargetsInRadius(Vector3 position, float radius, out List<IDamageable> damageables)
+        protected bool TryFindTargetsInRadius(Vector3 position, float radius, out List<IDamageable> targets)
         {
             var results = new Collider[64];
             Physics.OverlapSphereNonAlloc(position, radius, results, _layerMask);
 
-            damageables = new List<IDamageable>();
+            targets = new List<IDamageable>();
 
             for (var i = 0; i < results.Length; i++)
             {
@@ -24,18 +23,16 @@ namespace Core.Towers.Targeting
                 if (!result)
                     break;
                 
-                var invaderLink = result.GetComponent<InvaderLink>();
-                
-                if(!invaderLink)
+                if(!result.TryGetComponent<IDamageable>(out var target))
                     continue;
                 
-                if(invaderLink.Damageable.IsDead)
+                if(target.IsDead)
                     continue;
 
-                damageables.Add(invaderLink.Damageable);
+                targets.Add(target);
             }
 
-            return damageables.Count > 0;
+            return targets.Count > 0;
         }
     }
 }

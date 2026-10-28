@@ -19,7 +19,7 @@ namespace Core.Invaders
             _rewardProvider.ApplyReward(invader.Rewards);
 
             foreach (var currency in invader.Rewards.Currencies)
-                _floatingTextService.ShowText(invader.BodyPoint.position, "+" + currency.Amount);
+                _floatingTextService.ShowText(invader.Transform.position, "+" + currency.Amount);
         }
     }
 }

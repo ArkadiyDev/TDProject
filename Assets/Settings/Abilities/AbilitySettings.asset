@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1e86b327a064af6b0dc53ed3b61b009, type: 3}
+  m_Name: AbilitySettings
+  m_EditorClassIdentifier: 
+  _effects:
+  - rid: 6921009513486876736
+  _targeting:
+    rid: 6921009556939866168
+  references:
+    version: 2
+    RefIds:
+    - rid: 6921009513486876736
+      type: {class: DamageEffectSettings, ns: Core.Abilities, asm: Assembly-CSharp}
+      data:
+        _value: 5
+    - rid: 6921009556939866168
+      type: {class: AOEAbilityTargeting, ns: Core.Abilities, asm: Assembly-CSharp}
+      data:
+        _aoePrefab: {fileID: 1643062672531089257, guid: be021bbee8fdc4c488729daa61b3464c, type: 3}
+        _aoeRadius: 1.5
+        _aoeLayerMask:
+          serializedVersion: 2
+          m_Bits: 1

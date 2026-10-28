@@ -23,7 +23,7 @@ namespace Core.Invaders
         public string Name => _model.Name;
         public float Damage => _model.Damage;
         public bool IsDead => _model.IsDead;
-        public Transform BodyPoint => _view.BodyTargetPoint;
+        public Transform Transform => _view.BodyTargetPoint;
         public InvaderView View => _view;
         public RewardData Rewards => _model.Settings.Rewards;
 

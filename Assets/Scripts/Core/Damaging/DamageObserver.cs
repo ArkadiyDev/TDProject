@@ -19,6 +19,6 @@ namespace Core.Damaging
             _damageService.OnDamageDealt += OnDamageDealtHandler;
 
         private void OnDamageDealtHandler(IDamageable target, float amount) =>
-            _floatingTextService.ShowText(target.BodyPoint.position, amount.ToString(CultureInfo.InvariantCulture));
+            _floatingTextService.ShowText(target.Transform.position, amount.ToString(CultureInfo.InvariantCulture));
     }
 }

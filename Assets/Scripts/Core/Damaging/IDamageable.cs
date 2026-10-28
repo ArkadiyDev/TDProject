@@ -1,11 +1,9 @@
-using UnityEngine;
+using Core.Abilities;
 
 namespace Core.Damaging
 {
-    public interface IDamageable
+    public interface IDamageable : ITarget
     {
         void TakeDamage(float damageAmount);
-        bool IsDead { get; }
-        Transform BodyPoint { get; }
     }
 }

@@ -89,6 +89,6 @@ namespace Core.Waves
         }
         
         private bool CheckWaveCompleted() =>
-            _totalInvaders <= 0 && _invaderSystem.ActiveCount == 0;
+            _totalInvaders <= 0 && _invaderSystem.ActiveCount <= 0;
     }
 }

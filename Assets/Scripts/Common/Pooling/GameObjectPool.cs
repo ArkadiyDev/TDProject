@@ -73,7 +73,7 @@ namespace Common.Pooling
 
         private void OnDestroyItem(T obj)
         {
-            Destroy(obj);
+            Destroy(obj.gameObject);
         }
         
         private void OnDestroy()

@@ -1,5 +1,4 @@
 using Core.Damaging;
-using Core.Invaders;
 using UnityEngine;
 
 namespace Core.Towers.Targeting
@@ -20,7 +19,7 @@ namespace Core.Towers.Targeting
 
             foreach (var potentialTarget in damageables)
             {
-                var currentDistanceSqr = (potentialTarget.BodyPoint.position - position).sqrMagnitude;
+                var currentDistanceSqr = (potentialTarget.Transform.position - position).sqrMagnitude;
 
                 if (!(currentDistanceSqr < minDistanceSqr))
                     continue;

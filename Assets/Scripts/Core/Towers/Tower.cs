@@ -1,6 +1,8 @@
 using System;
+using Core.Abilities;
 using Core.Building;
 using Core.Damaging;
+using Core.Invaders;
 using UnityEngine;
 
 namespace Core.Towers
@@ -57,8 +59,7 @@ namespace Core.Towers
             Debug.Log($"Shooting with damage {_model.Damage}");
             var projectile = _projectileFactory.CreateProjectile(_view.ProjectileStartPoint.position);
             
-            projectile.Launch(target.BodyPoint, _settings.Projectile.Speed,
-                () => _damageService.ApplyDamage(this, target));
+            projectile.Launch(target.Transform, _settings.Projectile.Speed, () => _damageService.ApplyDamage(this, target));
         }
     }
 }

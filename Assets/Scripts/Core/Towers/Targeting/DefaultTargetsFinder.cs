@@ -1,5 +1,4 @@
 using Core.Damaging;
-using Core.Invaders;
 using UnityEngine;
 
 namespace Core.Towers.Targeting
@@ -9,13 +8,13 @@ namespace Core.Towers.Targeting
     {
         public override bool TryFindTarget(Vector3 position, float radius, out IDamageable target)
         {
-            if (!TryFindTargetsInRadius(position, radius, out var damageables))
+            if (!TryFindTargetsInRadius(position, radius, out var targets))
             {
                 target = null;
                 return false;
             }
 
-            target = damageables[0];
+            target = targets[0];
             return true;
         }
     }
